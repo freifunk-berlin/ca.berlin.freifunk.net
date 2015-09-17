@@ -13,6 +13,7 @@ db = SQLAlchemy(app)
 class Request(db.Model):
     id = db.Column(db.String(80), primary_key=True)
     email = db.Column(db.String(120))
+    generation_date = db.Column(db.Date())
 
     def __init__(self, id, email):
         self.id = id
