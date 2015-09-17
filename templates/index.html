@@ -1,9 +1,19 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+<div class='container'>
 {% from "_formhelpers.html" import render_field %}
 <form method=post action="/">
-  <dl>
     {{ render_field(form.id) }}
     {{ render_field(form.email) }}
     {{ render_field(form.email_confirm) }}
-  </dl>
-  <p><input type=submit value=Request>
+  <p><input type=submit value=Request class="btn btn-default">
 </form>
+</div>
+
+</body>
+</html>
