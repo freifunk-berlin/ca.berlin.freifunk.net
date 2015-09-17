@@ -30,3 +30,5 @@ Run the application
 ```
 python app.py
 ```
+
+All development should be done in Python 3.
