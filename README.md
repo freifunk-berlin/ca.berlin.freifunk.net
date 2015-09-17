@@ -24,6 +24,8 @@ from app import db
 db.create_all()
 ```
 
+Note that the default path for the database is in `/tmp` so you will lose your data when rebooting.
+
 Run the application
 ```
 python app.py
