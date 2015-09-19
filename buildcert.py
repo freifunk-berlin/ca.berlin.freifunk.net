@@ -1,3 +1,5 @@
+#!/bin/env python
+
 import datetime
 from subprocess import call
 
