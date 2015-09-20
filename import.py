@@ -23,11 +23,11 @@ for path in glob("{}/freifunk_*.crt".format(DIRECTORY)):
         # remove 'freifunk_' prefix from id
         id = components[b'CN'].decode('utf-8').replace('freifunk_', '')
         # extract creation date from certificate
-        creation_date = datetime.strptime(
+        generation_date = datetime.strptime(
                 certificate.get_notBefore().decode('utf-8'),
                 '%Y%m%d%H%M%SZ'
                 )
-        request = Request(id, email_address, creation_date)
+        request = Request(id, email_address, generation_date)
         try:
             db.session.add(request)
             db.session.commit()
