@@ -15,12 +15,17 @@ class Request(db.Model):
     email = db.Column(db.String(120))
     generation_date = db.Column(db.Date())
 
-    def __init__(self, id, email):
+    def __init__(self, id, email, generation_date=None):
         self.id = id
         self.email = email
+        self.generation_date = generation_date
 
     def __repr__(self):
-        return "<Request {} - {}>".format(self.id, self.email)
+        return "<Request {} - {} - {}>".format(
+                self.id,
+                self.email,
+                self.generation_date
+                )
 
 
 class RequestForm(Form):
