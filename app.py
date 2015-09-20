@@ -31,7 +31,14 @@ class Request(db.Model):
 class RequestForm(Form):
     id = TextField(
             'Id',
-            [validators.Length(min=4, max=32), validators.Required()]
+            [
+                validators.Length(min=4, max=32),
+                validators.Required(),
+                validators.Regexp(
+                    "[a-z]+[\-a-z]*",
+                    message="Must be lowercase and can contain '-'."
+                    )
+            ]
             )
     email = TextField(
             'Email',
