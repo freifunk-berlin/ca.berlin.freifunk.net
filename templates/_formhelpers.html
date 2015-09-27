@@ -1,11 +1,17 @@
-{% macro render_field(field) %}
+{% macro render_field(field, is_captcha) %}
   {{ field.label }}
   {{ field(class_="form-control", **kwargs)|safe }}
-  {% if field.errors %}
-    <ul class=errors>
-    {% for error in field.errors %}
-      <li>{{ error }}</li>
-    {% endfor %}
-    </ul>
+  {% if not is_captcha %}
+    {% if field.errors %}
+      <ul class=errors>
+      {% for error in field.errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% else %}
+    {% if field.errors %}
+      Not correct. Please try again. If you have any more problems contact the mailing list.
+    {% endif %}
   {% endif %}
 {% endmacro %}
