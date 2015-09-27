@@ -48,6 +48,10 @@ class RequestForm(Form):
             ]
             )
     email_confirm = TextField('Confirm Email')
+    captcha = TextField(
+            'Capital of Germany (to make sure that you are human)',
+            validators=[validators.AnyOf('Berlin', 'berlin')]
+    )
 
 
 @app.route('/', methods=['GET', 'POST'])
