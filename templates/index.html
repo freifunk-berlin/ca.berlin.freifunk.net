@@ -8,10 +8,10 @@
 <div class='container'>
 {% from "_formhelpers.html" import render_field %}
 <form method=post action="/">
-    {{ render_field(form.id, false) }}
-    {{ render_field(form.email, false) }}
-    {{ render_field(form.email_confirm, false) }}
-    {{ render_field(form.captcha, true) }}
+    {{ render_field(form.id) }}
+    {{ render_field(form.email) }}
+    {{ render_field(form.email_confirm) }}
+    {{ render_field(form.captcha) }}
   <p><input type=submit value=Request class="btn btn-default">
 </form>
 </div>
