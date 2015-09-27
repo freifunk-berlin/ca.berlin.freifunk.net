@@ -48,6 +48,13 @@ class RequestForm(Form):
             ]
             )
     email_confirm = TextField('Confirm Email')
+    captcha = TextField(
+            'Capital of Germany (to make sure that you are human)',
+            validators=[
+                validators.AnyOf(['Berlin', 'berlin'], message="Incorrect. If you keep having trouble contact the mailing list."),
+                validators.Required()
+            ]
+    )
 
 
 @app.route('/', methods=['GET', 'POST'])
