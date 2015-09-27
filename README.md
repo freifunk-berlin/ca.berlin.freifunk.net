@@ -28,7 +28,7 @@ Note that the default path for the database is in `/tmp` so you will lose your d
 
 Run the application
 ```
-python app.py
+python3 manage.py runserver
 ```
 
 All development should be done in Python 3.
