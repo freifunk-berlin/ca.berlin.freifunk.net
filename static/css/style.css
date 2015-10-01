@@ -1,0 +1,115 @@
+#header h1 {
+    border-bottom: 5px solid rgb(223, 58, 108);
+    padding-bottom: 10px;
+    margin-bottom: 0px;
+}
+
+#header h2 {
+  margin: 0px 0px 30px 0px;
+  font-size: 16pt;
+  padding-top: 10px;
+}
+
+h2 {
+  font-style: italic;
+}
+
+p {
+  padding: 0 10px;
+}
+
+#routers {
+  margin-top: 10px;
+}
+
+#routers li {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  height: 150px;
+}
+
+#routers li a {
+  min-height: 150px;
+  border: 1px solid #ccc;
+}
+
+#routers li a img {
+  height: 100px;
+  margin-bottom: 0.4em;
+}
+
+a, a:hover {
+  color: rgb(223, 58, 108);
+}
+
+#routers li a:hover {
+  border-color: #db0166;
+}
+
+#routers li a {
+  color: #555;
+}
+
+#routers li a:hover {
+  text-decoration: none;
+}
+
+#participate {
+  width: 300px;
+  margin: 20px;
+}
+
+.button  {
+  margin: 20px;
+  display: inline-block;
+  border-radius: 15px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 6px 20px;
+  color: #000;
+}
+
+.button .glyphicon {
+  margin: 5px 10px 5px 10px;
+}
+
+.button:hover {
+  text-decoration: none;
+}
+
+#header a {
+  color: #000;
+}
+
+#header a:hover {
+  text-decoration: none;
+  color: #000;
+}
+
+.form-router img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+code {
+  color: #000;
+}
+
+.flexible {
+  display: flex;
+  align-items: center;
+}
+
+.italic {
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.errors {
+  color: red;
+}
+
+iframe {
+  margin-bottom: 20px;
+}

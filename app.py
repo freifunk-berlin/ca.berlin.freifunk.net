@@ -41,15 +41,15 @@ class RequestForm(Form):
             ]
             )
     email = TextField(
-            'Email',
+            'E-Mail',
             [
                 validators.Email(), validators.Required(),
                 validators.EqualTo('email_confirm')
             ]
             )
-    email_confirm = TextField('Confirm Email')
+    email_confirm = TextField('E-Mail')
     captcha = TextField(
-            'Capital of Germany (to make sure that you are human)',
+            'Rätzel',
             validators=[
                 validators.AnyOf(['Berlin', 'berlin'], message="Incorrect. If you keep having trouble contact the mailing list."),
                 validators.Required()
