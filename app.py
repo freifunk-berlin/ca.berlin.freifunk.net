@@ -68,6 +68,5 @@ def index():
         req = Request(form.id.data, form.email.data)
         db.session.add(req)
         db.session.commit()
-        flash('Thanks for registering')
-        return redirect(url_for('index'))
+        return render_template('thanks.html')
     return render_template('index.html', form=form)
