@@ -3,7 +3,7 @@
 
 from flask import Flask, request, render_template, flash, redirect, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
-from wtforms import Form, TextField, validators
+from wtforms import Form, TextField, validators, ValidationError
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
@@ -29,6 +29,11 @@ class Request(db.Model):
                 )
 
 
+def id_does_not_exist(form, field):
+    if db.session.query(Request.id).filter(Request.id == field.data).count():
+        raise ValidationError('Id already exists.')
+
+
 class RequestForm(Form):
     id = TextField(
             'Id',
@@ -38,7 +43,8 @@ class RequestForm(Form):
                 validators.Regexp(
                     "[a-z]+[\-a-z]*",
                     message="Must be lowercase and can contain '-'."
-                    )
+                    ),
+                id_does_not_exist
             ]
             )
     email = TextField(
