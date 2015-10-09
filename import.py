@@ -1,16 +1,13 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 
-from app import Request, db
+from app import app, db, Request
 from glob import glob
 from sqlalchemy.exc import IntegrityError
 from OpenSSL import crypto
 from datetime import datetime
 
-DIRECTORY = "tests/openvpn/easy-rsa/keys/"
-
-
-for path in glob("{}/freifunk_*.crt".format(DIRECTORY)):
+for path in glob("{}/freifunk_*.crt".format(app.config['DIRECTORY'])):
     with open(path) as certfile:
         print("Importing {} ...".format(path))
         certificate = crypto.load_certificate(

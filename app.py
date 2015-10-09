@@ -5,10 +5,14 @@ from flask import Flask, request, render_template, flash, redirect, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 from wtforms import Form, TextField, validators, ValidationError
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-app.config['SECRET_KEY'] = 'foobar'
+app = Flask(__name__, instance_relative_config=True)
 db = SQLAlchemy(app)
+
+# Load the default configuration
+app.config.from_object('config')
+
+# Load the configuration from the instance folder
+app.config.from_pyfile('config.py')
 
 
 class Request(db.Model):

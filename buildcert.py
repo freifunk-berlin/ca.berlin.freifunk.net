@@ -4,7 +4,7 @@
 import datetime
 from subprocess import call
 
-from app import Request, db
+from app import app, db, Request
 
 COMMAND_BUILD = "echo"
 COMMAND_MAIL = "echo"
@@ -16,8 +16,8 @@ for request in Request.query.filter(Request.generation_date == None).all():  # n
     confirm = input('>')
     if confirm in ['Y', 'y']:
         print('generating certificate')
-        call([COMMAND_BUILD, request.id, request.email])
-        call([COMMAND_MAIL, request.id, request.email])
+        call([app.config['COMMAND_BUILD'], request.id, request.email])
+        call([app.config['COMMAND_MAIL'], request.id, request.email])
         request.generation_date = datetime.date.today()
         db.session.commit()
         print()
