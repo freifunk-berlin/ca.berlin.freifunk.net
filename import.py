@@ -28,7 +28,7 @@ for path in glob("{}/freifunk_*.crt".format(app.config['DIRECTORY'])):
         try:
             db.session.add(request)
             db.session.commit()
-            print("Improted {}.".format(id))
+            print("Improted {}.".format(cert_id))
         except IntegrityError:
-            print("{} already exists.".format(id))
+            print("{} already exists.".format(cert_id))
             db.session.rollback()
