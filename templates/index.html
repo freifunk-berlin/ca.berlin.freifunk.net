@@ -15,9 +15,11 @@
     <form class="form-horizontal col-md-8" role="form" action="{{url_for('index') }}" method="post">
       {{ form.csrf_token }}
       {{ render_bootstrap_field(form.id, "Name des Zugangs", "Ein kurzer und
-      eindeutiger Name für deinen Zugang (z.B.  <em>funkenpumpe</em> oder <em>HermannStr42_VH</em>).") }}
+      eindeutiger Name für deinen Zugang (z.B. <em>funkenpumpe</em> oder
+      <em>hermannstr42_vh</em>). Bitte nur Kleinbuchstaben und Bindestriche
+      verwenden.") }}
       {{ render_bootstrap_field(form.email, "Kontaktadresse", "Notwendig, damit
-      wir dir den Zugang per Email zuschicken können.") }}
+      wir dir den Zugang per E-Mail zuschicken können.") }}
       {{ render_bootstrap_field(form.email_confirm, help="Bestätigung deiner E-Mail.") }}
       {{ render_bootstrap_field(form.captcha, "Hauptstadt Deutschlands?", "Wird benötigt um Spam-Bots auszuschließen.") }}
 

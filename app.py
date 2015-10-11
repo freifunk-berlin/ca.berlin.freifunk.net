@@ -39,7 +39,7 @@ def id_does_not_exist(form, field):
 
 class RequestForm(Form):
     id = TextField(
-            'Id',
+            'ID',
             [
                 validators.Length(min=4, max=32),
                 validators.Required(),
@@ -59,7 +59,7 @@ class RequestForm(Form):
             )
     email_confirm = TextField('E-Mail')
     captcha = TextField(
-            u'Rätzel',
+            u'Rätsel',
             validators=[
                 validators.AnyOf(
                     ['Berlin', 'berlin'],
