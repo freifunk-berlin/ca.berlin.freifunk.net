@@ -19,8 +19,8 @@
       <em>hermannstr42_vh</em>). Bitte nur Kleinbuchstaben und Bindestriche
       verwenden.") }}
       {{ render_bootstrap_field(form.email, "Kontaktadresse", "Notwendig, damit
-      wir dir den Zugang per E-Mail zuschicken können.") }}
-      {{ render_bootstrap_field(form.email_confirm, help="Bestätigung deiner E-Mail.") }}
+      wir dir den Zugang per E-Mail zuschicken können.", "email") }}
+      {{ render_bootstrap_field(form.email_confirm, help="Bestätigung deiner E-Mail.", type="email") }}
       {{ render_bootstrap_field(form.captcha, "Hauptstadt Deutschlands?", "Wird benötigt um Spam-Bots auszuschließen.") }}
 
       <div class="form-group">
