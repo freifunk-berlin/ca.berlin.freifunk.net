@@ -2,7 +2,7 @@
 
 from flask import Flask, request, render_template, flash, redirect, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
-from wtforms import Form, TextField, validators, ValidationError
+from wtforms import Form, StringField, validators, ValidationError
 
 app = Flask(__name__, instance_relative_config=True)
 db = SQLAlchemy(app)
@@ -38,7 +38,7 @@ def id_does_not_exist(form, field):
 
 
 class RequestForm(Form):
-    id = TextField(
+    id = StringField(
             'ID',
             [
                 validators.Length(min=4, max=32),
@@ -50,15 +50,15 @@ class RequestForm(Form):
                 id_does_not_exist
             ]
             )
-    email = TextField(
+    email = StringField(
             'E-Mail',
             [
                 validators.Email(), validators.Required(),
                 validators.EqualTo('email_confirm')
             ]
             )
-    email_confirm = TextField('E-Mail')
-    captcha = TextField(
+    email_confirm = StringField('E-Mail')
+    captcha = StringField(
             u'Rätsel',
             validators=[
                 validators.AnyOf(
