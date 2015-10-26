@@ -1,12 +1,13 @@
 # ca.berlin.freifunk.net
 
 This project helps us (Freifunk Berlin) to automate the certificate request
-process. In the past a user requested a certificate for our vpn service via the
-mailinglist which caused a lot of noise on the mailing list and work on the
-admin side of the process. Today we use a webinterface for user input that lives
-at [https://ca.berlin.freifunk.net](https://ca.berlin.freifunk.net). The user
+process. In the past a user requested a certificate for our vpn service
+[VPN03](https://wiki.freifunk.net/Vpn03) via the mailinglist which caused a lot
+of noise on the mailing list and work on the admin side of the process.
+Today we use a webinterface for user input that lives at
+[https://ca.berlin.freifunk.net](https://ca.berlin.freifunk.net). The user
 provides us with an id and e-mail and generates a certificate request in the
-database. After the generation of the request a admin has to execute the
+database. After the generation of the request an admin has to execute the
 `buildcert` command on the server to create the certificate and send it to the
 user.
 
