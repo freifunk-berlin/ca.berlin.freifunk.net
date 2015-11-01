@@ -4,11 +4,13 @@ import tempfile
 from app import app, db, Request
 from flask.ext.sqlalchemy import SQLAlchemy
 
+
 class FlaskrTestCase(unittest.TestCase):
 
     def setUp(self):
         self.db_fd, self.temp_filepath = tempfile.mkstemp()
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{}'.format(self.temp_filepath)
+        database_path = 'sqlite:///{}'.format(self.temp_filepath)
+        app.config['SQLALCHEMY_DATABASE_URI'] = database_path
         app.config['TESTING'] = True
         self.app = app.test_client()
 
@@ -24,13 +26,12 @@ class FlaskrTestCase(unittest.TestCase):
         entries = db.session.query(Request).all()
         assert len(entries) == 0
 
-
     def test_make_request(self):
         example_data = dict(id='foobar',
                             email='email@provider.com',
                             email_confirm='email@provider.com',
                             captcha='Berlin'
-                           )
+                            )
         response = self.app.post('/',
                                  data=example_data,
                                  follow_redirects=True)
@@ -44,7 +45,7 @@ class FlaskrTestCase(unittest.TestCase):
                             email='email@provider.com',
                             email_confirm='email@provider.com',
                             captcha='Berlin'
-                           )
+                            )
         response = self.app.post('/',
                                  data=example_data,
                                  follow_redirects=True)
@@ -68,7 +69,7 @@ class FlaskrTestCase(unittest.TestCase):
                             email='email@provider.com',
                             email_confirm='email@provider.com',
                             captcha='Berlin'
-                           )
+                            )
         response = self.app.post('/',
                                  data=example_data,
                                  follow_redirects=True)
@@ -81,7 +82,7 @@ class FlaskrTestCase(unittest.TestCase):
                             email='email@provider.com',
                             email_confirm='email@provider.com',
                             captcha='Berlin'
-                           )
+                            )
         response = self.app.post('/',
                                  data=example_data,
                                  follow_redirects=True)
