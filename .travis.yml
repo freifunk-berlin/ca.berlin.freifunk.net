@@ -9,4 +9,5 @@ install:
 # command to run tests
 script: 
   - "pep8 ."
+  - "mkdir instance && cp config.py ./instance"
   - "python3 test.py"
