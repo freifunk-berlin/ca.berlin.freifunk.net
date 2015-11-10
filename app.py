@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, render_template, flash, redirect, url_for
+from flask import Flask, request, render_template, flash, redirect, url_for, abort
 from flask.ext.sqlalchemy import SQLAlchemy
 from wtforms import Form, StringField, validators, ValidationError
+from itsdangerous import URLSafeSerializer
 
 app = Flask(__name__, instance_relative_config=True)
 db = SQLAlchemy(app)
@@ -12,6 +13,8 @@ app.config.from_object('config')
 
 # Load the configuration from the instance folder
 app.config.from_pyfile('config.py')
+
+s = URLSafeSerializer(app.config['SECRET_KEY'])
 
 
 class Request(db.Model):
@@ -77,5 +80,23 @@ def index():
         req = Request(form.id.data, form.email.data)
         db.session.add(req)
         db.session.commit()
+        token = s.dumps(req.id, salt='freifunk-ca-service')
+        confirm_url = url_for('get_certificate',
+                              token=token,
+                              _external=True)
+
         return render_template('thanks.html')
     return render_template('index.html', form=form)
+
+
+@app.route('/certificates/<token>', methods=['GET'])
+def get_certificate(token):
+    try:
+        id = s.loads(token, salt='freifunk-ca-service')
+    except:
+        abort(404)
+
+    ca_req = Request.query.get_or_404(id)
+    print(ca_req)
+
+    return "return key + cert here + {}".format(ca_req)
