@@ -45,4 +45,8 @@ Run the application
 python3 manage.py runserver
 ```
 
+To change the **host** you can add the `-h 0.0.0.0` parameter.
+
+To change the **port** you can add the `-p 1337` parameter.
+
 All development should be done in Python 3.
