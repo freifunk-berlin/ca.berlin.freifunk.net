@@ -30,12 +30,12 @@ pip3 install -r requirements.txt
 ```
 
 
-Setup the database
+Setup the initial database
 
-Open a python terminal and run
 ```
-from app import db
-db.create_all()
+./manage.py db init
+./manage.py db migrate
+./manage.py db upgrade
 ```
 
 Note that the default path for the database is in `/tmp` so you will lose your data when rebooting.
