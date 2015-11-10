@@ -13,17 +13,20 @@ user.
 
 ## Development
 
-Install and use virtualenv with:
+### Required packages (Ubuntu 14.04)
+`sudo apt-get install python-virtualenv python-pip python3-dev libffi-dev libssl-dev`
+
+Use virtualenv with:
 
 ```
-virtualenv env
+virtualenv env -p python3
 . env/bin/activate
 ```
 
 Install dependencies with pip:
 
 ```
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 
