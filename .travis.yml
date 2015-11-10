@@ -4,10 +4,10 @@ python:
   - "3.5"
 # command to install dependencies
 install:
-  - "pip install -r requirements.txt"
-  - "pip install -r requirements.dev.txt"
+  - "pip3 install -r requirements.txt"
+  - "pip3 install -r requirements.dev.txt"
 # command to run tests
 script: 
   - "pep8 ."
-  - "mkdir instance && cp config.py ./instance"
+  - "touch ./instance/config.py"
   - "python3 test.py"
