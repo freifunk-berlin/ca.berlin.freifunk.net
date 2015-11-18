@@ -1,7 +1,8 @@
 import os
 import unittest
 import tempfile
-from app import app, db, Request
+from ca import app, db
+from ca.models import Request
 from flask.ext.sqlalchemy import SQLAlchemy
 
 
