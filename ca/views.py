@@ -7,10 +7,14 @@ from ca.models import Request
 
 s = URLSafeSerializer(app.config['SECRET_KEY'])
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
+    return render_template('index.html')
+
+@app.route('/', methods=['POST'])
+def post_request():
     form = RequestForm(request.form)
-    if request.method == 'POST' and form.validate():
+    if form.validate():
         req = Request(form.id.data, form.email.data)
         db.session.add(req)
         db.session.commit()
@@ -20,8 +24,8 @@ def index():
                               _external=True)
 
         return render_template('thanks.html')
-    return render_template('index.html', form=form)
-
+    else:
+        return render_template('index.html', form=form)
 
 @app.route('/certificates/<token>', methods=['GET'])
 def get_certificate(token):
