@@ -1,4 +1,4 @@
-from ca import app, db
+from ca import db
 
 
 class Request(db.Model):

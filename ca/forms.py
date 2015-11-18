@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
+
 from wtforms import Form, StringField, validators, ValidationError
 
 from ca.models import Request
 from ca import db
-# from ca.app import id_does_not_exist
 
 def id_does_not_exist(form, field):
     if db.session.query(Request.id).filter(Request.id == field.data).count():

@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, flash, redirect, url_for, abort
+from flask import Flask, request, render_template, flash, url_for, abort
 from itsdangerous import URLSafeSerializer
 
 from ca import app, db
@@ -26,11 +26,11 @@ def index():
 @app.route('/certificates/<token>', methods=['GET'])
 def get_certificate(token):
     try:
-        id = s.loads(token, salt='freifunk-ca-service')
+        cert_id = s.loads(token, salt='freifunk-ca-service')
     except:
         abort(404)
 
-    ca_req = Request.query.get_or_404(id)
+    ca_req = Request.query.get_or_404(cert_id)
     print(ca_req)
 
     return "return key + cert here + {}".format(ca_req)
