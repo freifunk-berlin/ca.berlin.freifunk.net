@@ -8,6 +8,5 @@ install:
   - "pip3 install -r requirements.dev.txt"
 # command to run tests
 script: 
-  - "pep8 ."
   - "touch ./instance/config.py"
   - "python3 test.py"
