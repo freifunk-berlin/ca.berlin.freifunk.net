@@ -16,7 +16,7 @@ class RequestForm(Form):
                 validators.Length(min=4, max=32),
                 validators.Required(),
                 validators.Regexp(
-                    "^[a-z]+[a-z\-]*$",
+                    "^[a-z]+[a-z\d\-]*$",
                     message="Must be lowercase and can contain '-'."
                     ),
                 id_does_not_exist
