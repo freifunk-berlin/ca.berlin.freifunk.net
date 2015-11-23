@@ -7,7 +7,7 @@ install:
   - "pip3 install -r requirements.txt"
   - "pip3 install -r requirements.dev.txt"
 # command to run tests
-script: 
+script:
   - "touch ./instance/config.py"
   - "py.test test.py --cov=ca"
 after_success:
