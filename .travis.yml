@@ -9,4 +9,6 @@ install:
 # command to run tests
 script: 
   - "touch ./instance/config.py"
-  - "python3 test.py"
+  - "py.test test.py --cov=ca"
+after_success:
+  - coveralls
