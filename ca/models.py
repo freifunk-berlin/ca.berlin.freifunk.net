@@ -17,4 +17,3 @@ class Request(db.Model):
                 self.email,
                 self.generation_date
                 )
-
