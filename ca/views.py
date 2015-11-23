@@ -4,9 +4,11 @@ from ca import app, db
 from ca.forms import RequestForm
 from ca.models import Request
 
+
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
+
 
 @app.route('/', methods=['POST'])
 def post_request():
