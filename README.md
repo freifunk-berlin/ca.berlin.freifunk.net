@@ -1,5 +1,7 @@
 # ca.berlin.freifunk.net
 
+[![Coverage Status](https://coveralls.io/repos/freifunk-berlin/ca.berlin.freifunk.net/badge.svg?branch=master&service=github)](https://coveralls.io/github/freifunk-berlin/ca.berlin.freifunk.net?branch=master)
+
 This project helps us (Freifunk Berlin) to automate the certificate request
 process. In the past a user requested a certificate for our vpn service
 [VPN03](https://wiki.freifunk.net/Vpn03) via the mailinglist which caused a lot
