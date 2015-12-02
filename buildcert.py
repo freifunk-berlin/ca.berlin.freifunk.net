@@ -6,9 +6,6 @@ from subprocess import call
 
 from app import app, db, Request
 
-COMMAND_BUILD = "echo"
-COMMAND_MAIL = "echo"
-
 for request in Request.query.filter(Request.generation_date == None).all():  # noqa
     prompt = "Do you want to generate a certificate for {}, {} ?"
     print(prompt.format(request.id, request.email))
