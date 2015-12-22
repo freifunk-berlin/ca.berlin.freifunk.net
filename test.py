@@ -27,6 +27,10 @@ class FlaskrTestCase(unittest.TestCase):
         entries = db.session.query(Request).all()
         assert len(entries) == 0
 
+    def test_get_index(self):
+        response = self.app.get("/")
+        assert response.status_code == 200
+
     def test_make_request(self):
         example_data = dict(id='foobar',
                             email='email@provider.com',
