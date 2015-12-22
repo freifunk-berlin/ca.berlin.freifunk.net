@@ -7,7 +7,8 @@ from ca.models import Request
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    form = RequestForm()
+    return render_template('index.html', form=form)
 
 
 @app.route('/', methods=['POST'])
