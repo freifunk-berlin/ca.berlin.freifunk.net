@@ -4,6 +4,10 @@ from ca import app, db
 from ca.forms import RequestForm
 from ca.models import Request
 
+@app.route('/status')
+def status():
+    result = db.session.query(Request.email).filter(Request.generation_date == None).count()
+    return render_template('status.html', requests=result)
 
 @app.route('/', methods=['GET'])
 def index():
