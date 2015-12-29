@@ -6,7 +6,7 @@ from ca.models import Request
 
 @app.route('/status')
 def status():
-    result = db.session.query(Request.email).filter(Request.generation_date == None).count()
+    result = db.session.query(Request).filter(Request.generation_date == None).count()
     return render_template('status.html', requests=result)
 
 @app.route('/', methods=['GET'])
