@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from app import app, db, Request
+from ca import app, db
+from ca.models import Request
 from glob import glob
 from sqlalchemy.exc import IntegrityError
 from OpenSSL import crypto

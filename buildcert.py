@@ -4,7 +4,8 @@
 import datetime
 from subprocess import call
 
-from app import app, db, Request
+from ca import app, db
+from ca.models import Request
 
 for request in Request.query.filter(Request.generation_date == None).all():  # noqa
     prompt = "Do you want to generate a certificate for {}, {} ?"
