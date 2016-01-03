@@ -6,6 +6,7 @@ from ca.models import Request
 
 @app.route('/status')
 def status():
+    """ Returns a page showing the number of unprocessed certficate-requests. """
     result = db.session.query(Request).filter(Request.generation_date == None).count()
     return render_template('status.html', requests=result)
 
