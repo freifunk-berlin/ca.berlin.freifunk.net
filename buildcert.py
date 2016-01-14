@@ -11,7 +11,7 @@ from OpenSSL import crypto, SSL
 from os.path import exists, join
 
 # taken from https://gist.github.com/ril3y/1165038
-def create_self_signed_cert(cert_dir):
+def create_self_signed_cert(cert_name, cert_email):
     """
     If datacard.crt and datacard.key don't exist in cert_dir, create a new
     self-signed cert and keypair and write them into that directory.
@@ -25,12 +25,12 @@ def create_self_signed_cert(cert_dir):
 
         # create a self-signed cert
         cert = crypto.X509()
-        cert.get_subject().C = "US"
-        cert.get_subject().ST = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        cert.get_subject().L = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
-        cert.get_subject().O = "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
-        cert.get_subject().OU = "my organization"
-        cert.get_subject().CN = "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
+        cert.get_subject().C = "DE"
+        cert.get_subject().ST = "Eastern Germany"
+        cert.get_subject().L = "Berlin"
+        cert.get_subject().O = "Foerderverein Freie Netzwerke e.V."
+        cert.get_subject().CN = "freifunk_%s" % cert_name
+        cert.get_subject().emailAddress = cert_email
         cert.set_serial_number(1000)
         cert.gmtime_adj_notBefore(0)
         cert.gmtime_adj_notAfter(10*365*24*60*60)
@@ -45,7 +45,7 @@ def create_self_signed_cert(cert_dir):
 #        open(join(cert_dir, KEY_FILE), "wt").write(
 #            crypto.dump_privatekey(crypto.FILETYPE_PEM, k))
 
-create_self_signed_cert('/tmp')
+create_self_signed_cert('sam0815-test', "freifunk@it-solutions.geroedel.de")
 
 quit(0)
 
