@@ -20,6 +20,8 @@ def create_cert(cert_name, cert_email):
     # get required CA-data
     ca_cert_file = open('/tmp/ffca.crt', 'r')
     ca_cert = crypto.load_certificate(crypto.FILETYPE_PEM, ca_cert_file.read())
+    ca_key_file = open('/tmp/ffca.key', 'r')
+    ca_key = crypto.load_privatekey(crypto.FILETYPE_PEM, ca_key_file.read())
 
     if True:
 
@@ -53,7 +55,7 @@ def create_cert(cert_name, cert_email):
         ]
         cert.add_extensions(cert_ext)
 
-        cert.sign(k, 'sha1')
+        cert.sign(ca_key, 'sha1')
 
 	print "Certificate generated"
 	print crypto.dump_certificate(crypto.FILETYPE_TEXT, cert)
