@@ -11,7 +11,7 @@ from OpenSSL import crypto, SSL
 from os.path import exists, join
 
 # taken from https://gist.github.com/ril3y/1165038
-def create_self_signed_cert(cert_name, cert_email):
+def create_cert(cert_name, cert_email):
     """
     If datacard.crt and datacard.key don't exist in cert_dir, create a new
     self-signed cert and keypair and write them into that directory.
@@ -45,7 +45,7 @@ def create_self_signed_cert(cert_name, cert_email):
 #        open(join(cert_dir, KEY_FILE), "wt").write(
 #            crypto.dump_privatekey(crypto.FILETYPE_PEM, k))
 
-create_self_signed_cert('sam0815-test', "freifunk@it-solutions.geroedel.de")
+create_cert('sam0815-test', "freifunk@it-solutions.geroedel.de")
 
 quit(0)
 
