@@ -11,7 +11,7 @@ from OpenSSL import crypto, SSL
 from os.path import exists, join
 
 # taken from https://gist.github.com/ril3y/1165038
-def create_cert(cert_name, cert_email):
+def create_cert(cert_name, cert_email, cert_key):
     """
     If datacard.crt and datacard.key don't exist in cert_dir, create a new
     self-signed cert and keypair and write them into that directory.
@@ -24,10 +24,6 @@ def create_cert(cert_name, cert_email):
     ca_key = crypto.load_privatekey(crypto.FILETYPE_PEM, ca_key_file.read())
 
     if True:
-
-        # create a key pair
-        k = crypto.PKey()
-        k.generate_key(crypto.TYPE_RSA, 1024)
 
         # create a self-signed cert
         cert = crypto.X509()
@@ -42,7 +38,7 @@ def create_cert(cert_name, cert_email):
         cert.gmtime_adj_notBefore(0)
         cert.gmtime_adj_notAfter(10*365*24*60*60)
         cert.set_issuer(ca_cert.get_subject())
-        cert.set_pubkey(k)
+        cert.set_pubkey(cert_key)
 
         # create cert extensions
         cert_ext = [
@@ -57,16 +53,17 @@ def create_cert(cert_name, cert_email):
 
         cert.sign(ca_key, 'sha1')
 
-	print "Certificate generated"
-	print crypto.dump_certificate(crypto.FILETYPE_TEXT, cert)
-#        open(join(cert_dir, CERT_FILE), "wt").write(
-#            crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
-#        open(join(cert_dir, KEY_FILE), "wt").write(
-#            crypto.dump_privatekey(crypto.FILETYPE_PEM, k))
+        print crypto.dump_certificate(crypto.FILETYPE_TEXT, cert)
+        return cert
 
-create_cert('sam0815-test', "freifunk@it-solutions.geroedel.de")
+def create_key():
+        """Create a 1024 RSA key-pair"""
+        # create a key pair
+        k = crypto.PKey()
+        k.generate_key(crypto.TYPE_RSA, 1024)
+        # crypto.dump_privatekey(crypto.FILETYPE_PEM, k)
+        return k
 
-quit(0)
 
 for request in Request.query.filter(Request.generation_date == None).all():  # noqa
     prompt = "Do you want to generate a certificate for {}, {} ?"
@@ -75,9 +72,13 @@ for request in Request.query.filter(Request.generation_date == None).all():  # n
     confirm = input('>')
     if confirm in ['Y', 'y']:
         print('generating certificate')
-        call([app.config['COMMAND_BUILD'], request.id, request.email])
-        call([app.config['COMMAND_MAIL'], request.id, request.email])
-        request.generation_date = datetime.date.today()
+        new_key = create_key()
+        new_cert = create_cert(request.id, request.email, new_key)
+        # construct the TAR-archive here
+        # and maybe rework the email-code
+        #call([app.config['COMMAND_BUILD'], request.id, request.email])
+        #call([app.config['COMMAND_MAIL'], request.id, request.email])
+        #request.generation_date = datetime.date.today()
         db.session.commit()
         print()
     else:
