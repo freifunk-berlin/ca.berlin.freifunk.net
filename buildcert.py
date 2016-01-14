@@ -10,9 +10,6 @@ from ca.models import Request
 from OpenSSL import crypto, SSL
 from os.path import exists, join
 
-CERT_FILE = "myapp.crt"
-KEY_FILE = "myapp.key"
-
 # taken from https://gist.github.com/ril3y/1165038
 def create_self_signed_cert(cert_dir):
     """
@@ -20,8 +17,7 @@ def create_self_signed_cert(cert_dir):
     self-signed cert and keypair and write them into that directory.
     """
 
-    if not exists(join(cert_dir, CERT_FILE)) \
-            or not exists(join(cert_dir, KEY_FILE)):
+    if True:
 
         # create a key pair
         k = crypto.PKey()
@@ -42,10 +38,12 @@ def create_self_signed_cert(cert_dir):
         cert.set_pubkey(k)
         cert.sign(k, 'sha1')
 
-        open(join(cert_dir, CERT_FILE), "wt").write(
-            crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
-        open(join(cert_dir, KEY_FILE), "wt").write(
-            crypto.dump_privatekey(crypto.FILETYPE_PEM, k))
+	print "Certificate generated"
+	print crypto.dump_certificate(crypto.FILETYPE_TEXT, cert)
+#        open(join(cert_dir, CERT_FILE), "wt").write(
+#            crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
+#        open(join(cert_dir, KEY_FILE), "wt").write(
+#            crypto.dump_privatekey(crypto.FILETYPE_PEM, k))
 
 create_self_signed_cert('/tmp')
 
