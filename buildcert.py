@@ -17,6 +17,10 @@ def create_cert(cert_name, cert_email):
     self-signed cert and keypair and write them into that directory.
     """
 
+    # get required CA-data
+    ca_cert_file = open('/tmp/ffca.crt', 'r')
+    ca_cert = crypto.load_certificate(crypto.FILETYPE_PEM, ca_cert_file.read())
+
     if True:
 
         # create a key pair
@@ -34,7 +38,7 @@ def create_cert(cert_name, cert_email):
         cert.set_serial_number(1000)
         cert.gmtime_adj_notBefore(0)
         cert.gmtime_adj_notAfter(10*365*24*60*60)
-        cert.set_issuer(cert.get_subject())
+        cert.set_issuer(ca_cert.get_subject())
         cert.set_pubkey(k)
         cert.sign(k, 'sha1')
 
