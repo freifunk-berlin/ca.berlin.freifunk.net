@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import datetime
@@ -27,7 +27,7 @@ def create_cert(cert_name, cert_email, cert_sn, cert_key):
 
         # create a self-signed cert
         cert = crypto.X509()
-        cert.set_version = 3
+        cert.set_version(0x02)  # X509-Version 3
         cert.get_subject().C = "DE"
         cert.get_subject().ST = "Eastern Germany"
         cert.get_subject().L = "Berlin"
@@ -41,20 +41,22 @@ def create_cert(cert_name, cert_email, cert_sn, cert_key):
         cert.set_pubkey(cert_key)
 
         # create cert extensions
+        # as Python 3 uses unicode-strings we have to froce them to byte-strings
+        #  https://github.com/pyca/pyopenssl/issues/15
         cert_ext = [
-            crypto.X509Extension('basicConstraints', False, 'CA:FALSE'),
-            crypto.X509Extension('nsComment', False, 'made for you with PyOpenSSL'),
-            crypto.X509Extension('subjectKeyIdentifier', False, 'hash', subject=cert),
-            crypto.X509Extension('authorityKeyIdentifier', False, 'keyid:always,issuer:always', issuer=ca_cert),
-            crypto.X509Extension('extendedKeyUsage', False, 'TLS Web Client Authentication'),
-            crypto.X509Extension('keyUsage', False, 'Digital Signature'),
+            crypto.X509Extension(b'basicConstraints', False, b"CA:FALSE"),
+            crypto.X509Extension(b'nsComment', False, b'made for you with PyOpenSSL'),
+            crypto.X509Extension(b'subjectKeyIdentifier', False, b'hash', subject=cert),
+            crypto.X509Extension(b'authorityKeyIdentifier', False, b'keyid:always,issuer:always', issuer=ca_cert),
+            crypto.X509Extension(b'extendedKeyUsage', False, b'TLS Web Client Authentication'),
+            crypto.X509Extension(b'keyUsage', False, b'Digital Signature'),
         ]
         cert.add_extensions(cert_ext)
 
         cert.sign(ca_key, 'sha1')
 
-        print crypto.dump_certificate(crypto.FILETYPE_TEXT, cert)
-        return cert
+        print (crypto.dump_certificate(crypto.FILETYPE_TEXT, cert))
+        return (cert)
 
 def create_key():
         """Create a 1024 RSA key-pair"""
@@ -62,7 +64,7 @@ def create_key():
         k = crypto.PKey()
         k.generate_key(crypto.TYPE_RSA, 1024)
         # crypto.dump_privatekey(crypto.FILETYPE_PEM, k)
-        return k
+        return (k)
 
 
 for request in Request.query.filter(Request.generation_date == None).all():  # noqa
