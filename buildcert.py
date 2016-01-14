@@ -29,6 +29,7 @@ def create_cert(cert_name, cert_email):
 
         # create a self-signed cert
         cert = crypto.X509()
+        cert.set_version = 3
         cert.get_subject().C = "DE"
         cert.get_subject().ST = "Eastern Germany"
         cert.get_subject().L = "Berlin"
@@ -40,6 +41,18 @@ def create_cert(cert_name, cert_email):
         cert.gmtime_adj_notAfter(10*365*24*60*60)
         cert.set_issuer(ca_cert.get_subject())
         cert.set_pubkey(k)
+
+        # create cert extensions
+        cert_ext = [
+            crypto.X509Extension('basicConstraints', False, 'CA:FALSE'),
+            crypto.X509Extension('nsComment', False, 'made for you with PyOpenSSL'),
+            crypto.X509Extension('subjectKeyIdentifier', False, 'hash', subject=cert),
+            crypto.X509Extension('authorityKeyIdentifier', False, 'keyid:always,issuer:always', issuer=ca_cert),
+            crypto.X509Extension('extendedKeyUsage', False, 'TLS Web Client Authentication'),
+            crypto.X509Extension('keyUsage', False, 'Digital Signature'),
+        ]
+        cert.add_extensions(cert_ext)
+
         cert.sign(k, 'sha1')
 
 	print "Certificate generated"
