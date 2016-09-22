@@ -27,7 +27,6 @@ for request in Request.query.filter(Request.generation_date == None).all():  # n
     if confirm in ['Y', 'y']:
         print('generating certificate')
         call([app.config['COMMAND_BUILD'], request.id, request.email])
-        #call([app.config['COMMAND_MAIL'], request.id, request.email])
         mail_certificate(request.id, request.email)
         request.generation_date = datetime.date.today()
         db.session.commit()
