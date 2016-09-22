@@ -1,0 +1,44 @@
+Hallo Freifunka!
+
+Wir freuen uns sehr, dass Du deinen Internetzugang mit anderen
+Menschen teilen möchtest. Damit Du Dir keine Sorgen mehr um die
+dumme Störerhaftung machen musst, findest Du im Anhang Deinen
+persönlichen Vpn03 Key.
+
+Hintergrundinformationen wie Du AKTIV gegen die Störerhaftung
+werden kannst, findest Du auf der Kampagnenseite "Freifunk statt
+Angst"[1]. Wenn Du mehr über das Vpn03 wissen möchtest, findest
+Du Infos im Wiki[2].
+
+Eine Howto, wie Du Deinen Freifunk-Router einrichtest findest Du
+auf der Berliner Freifunkseite[3]. Wir würden uns freuen, wenn
+Du Dich auf unserer Mailingliste[4] einträgst und Dich kurz
+vorstellst. So kannst Du auch andere nette Freifunker_innen
+kontaktieren, die Dir gerne Fragen beantworten.
+
+Da unsere Ressourcen, personell wie technisch, knapp bemessen
+sind, achte darauf, dass Du den Tunnel auschließlich für Freifunk
+und fair nutzt. 
+
+Der Vpn03 ist ein Service, der ehrenamtlich von Freifunker_innen
+aus der Berliner Community verwaltet und vom Förderverein freie
+Netzwerke e.V.[5] bereitgestellt und finanziert wird. Hierfür
+sind wir regelmäßig auf Spenden angewiesen[6]. 
+
+In Handarbeit und mit Engagement für Freie Netze erstellt von
+Deinen Vpn03-Administratoren.
+
+Philipp, Sven, Sven-Ola und Faustus
+
+[1] http://freifunkstattangst.de/
+[2] https://wiki.freifunk.net/Vpn03
+[3] https://berlin.freifunk.net/participate/howto/
+[4] https://lists.berlin.freifunk.net/cgi-bin/mailman/listinfo/berlin
+[5] http://foerderverein.freie-netzwerke.de/
+[6] https://www.betterplace.org/de/projects/12172-freifunk-net
+
+--
+Freifunk Berlin VPN-Team
+http://berlin.freifunk.net
+http://foerderverein.freie-netzwerke.de/
+
