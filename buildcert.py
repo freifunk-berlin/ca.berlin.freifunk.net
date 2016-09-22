@@ -4,11 +4,11 @@
 import datetime
 from subprocess import call
 
-from ca import app, db
+from ca import app, db, mail
 from ca.models import Request
 
 from flask import Flask, render_template
-from flask_mail import Mail, Message
+from flask_mail import Message
 
 
 def mail_certificate(id, email):
