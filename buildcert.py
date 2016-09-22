@@ -13,7 +13,7 @@ from flask_mail import Message
 
 def mail_certificate(id, email):
     with app.app_context():
-        msg = Message('Freifunk Vpn03 Key', sender = 'no-reply@ca.berlin.freifunk.net', recipients = [email])
+        msg = Message('Freifunk Vpn03 Key', sender = app.config['MAIL_FROM'], recipients = [email])
         msg.body = render_template('mail.txt')
         with app.open_resource("/etc/openvpn/clients/freifunk_{}.tgz".format(id)) as fp:
             msg.attach("freifunk_{}.tgz".format(id), "application/gzip", fp.read())
