@@ -47,5 +47,11 @@ def process():
         else:
             print('skipping generation \n')
 
+@requests_subcommands.command
+def list():
+    for request in Request.query.filter(Request.generation_date == None).all():
+        prompt = "ID: {} - Email: {}"
+        print(prompt.format(request.id, request.email))
+
 if __name__ == '__main__':
     manager.run()
