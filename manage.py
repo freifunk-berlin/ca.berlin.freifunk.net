@@ -53,5 +53,17 @@ def list():
         prompt = "ID: {} - Email: {}"
         print(prompt.format(request.id, request.email))
 
+@requests_subcommands.command
+def send_again():
+    print("Which existing certificate do you want to send again? Please type the ID")
+    send_again_id = input('>')
+    print("Where should it be sent? Please type the Email")
+    send_again_mail = input('>')
+    try:
+        mail_certificate(send_again_id, send_again_mail)
+        print("OK")
+    except:
+        print("That didn't work.")
+
 if __name__ == '__main__':
     manager.run()
