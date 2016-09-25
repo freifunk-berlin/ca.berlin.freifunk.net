@@ -19,7 +19,7 @@ migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
-requests_subcommands = Manager(usage="List or process certificate requests")
+requests_subcommands = Manager(usage="Handle certificate requests")
 manager.add_command('requests', requests_subcommands)
 
 
@@ -34,6 +34,7 @@ def mail_certificate(id, email):
 
 @requests_subcommands.command
 def process():
+    "Process new certificate requests"
     for request in Request.query.filter(Request.generation_date == None).all():  # noqa
         prompt = "Do you want to generate a certificate for {}, {} ?"
         print(prompt.format(request.id, request.email))
@@ -52,6 +53,7 @@ def process():
 
 @requests_subcommands.command
 def list():
+    "List new certificate requests"
     for request in Request.query.filter(Request.generation_date == None).all():
         prompt = "ID: {} - Email: {}"
         print(prompt.format(request.id, request.email))
@@ -59,6 +61,7 @@ def list():
 
 @requests_subcommands.command
 def send_again():
+    "Send existing certificate again"
     print("Which existing certificate do you want to send again? Type the ID")
     send_again_id = input('>')
     print("Where should it be sent? Please type the Email")
