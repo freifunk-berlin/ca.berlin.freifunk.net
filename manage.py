@@ -22,13 +22,15 @@ manager.add_command('db', MigrateCommand)
 requests_subcommands = Manager(usage="List or process certificate requests")
 manager.add_command('requests', requests_subcommands)
 
+
 def mail_certificate(id, email):
     with app.app_context():
-        msg = Message(app.config['MAIL_SUBJECT'], sender = app.config['MAIL_FROM'], recipients = [email])
+        msg = Message(app.config['MAIL_SUBJECT'], sender=app.config['MAIL_FROM'], recipients=[email])
         msg.body = render_template('mail.txt')
         with app.open_resource("{}/freifunk_{}.tgz".format(app.config['DIRECTORY_CLIENTS'], id)) as fp:
             msg.attach("freifunk_{}.tgz".format(id), "application/gzip", fp.read())
         mail.send(msg)
+
 
 @requests_subcommands.command
 def process():
@@ -47,15 +49,17 @@ def process():
         else:
             print('skipping generation \n')
 
+
 @requests_subcommands.command
 def list():
     for request in Request.query.filter(Request.generation_date == None).all():
         prompt = "ID: {} - Email: {}"
         print(prompt.format(request.id, request.email))
 
+
 @requests_subcommands.command
 def send_again():
-    print("Which existing certificate do you want to send again? Please type the ID")
+    print("Which existing certificate do you want to send again? Type the ID")
     send_again_id = input('>')
     print("Where should it be sent? Please type the Email")
     send_again_mail = input('>')
