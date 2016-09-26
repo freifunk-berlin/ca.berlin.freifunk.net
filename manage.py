@@ -22,6 +22,9 @@ manager.add_command('db', MigrateCommand)
 requests_subcommands = Manager(usage="Handle certificate requests")
 manager.add_command('requests', requests_subcommands)
 
+certificates_subcommands = Manager(usage="Handle existing certificates")
+manager.add_command('certificates', certificates_subcommands)
+
 
 def mail_certificate(id, email):
     with app.app_context():
@@ -73,8 +76,8 @@ def send_again():
         print("That didn't work.")
 
 
-@requests_subcommands.command
-def list_old():
+@certificates_subcommands.command
+def list():
     "List already existing certificates"
     for request in Request.query.filter(Request.generation_date != None).all():
         prompt = "ID: {} - Email: {}"
