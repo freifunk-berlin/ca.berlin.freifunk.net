@@ -9,9 +9,13 @@ of noise on the mailing list and work on the admin side of the process.
 Today we use a webinterface for user input that lives at
 [https://ca.berlin.freifunk.net](https://ca.berlin.freifunk.net). The user
 provides us with an id and e-mail and generates a certificate request in the
-database. After the generation of the request an admin has to execute the
-`buildcert` command on the server to create the certificate and send it to the
-user.
+database. After the generation of the request an admin has to execute
+`python3 manage.py requests process` on the server to create the certificate and send it to the
+user. To send an already existing certificate again use `python3 manage.py certificates send`.
+
+See also:
+`python3 manage.py requests --help`
+`python3 manage.py certificates --help`
 
 ## Development
 
