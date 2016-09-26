@@ -57,7 +57,7 @@ def process():
 @requests_subcommands.command
 def show():
     "List new certificate requests"
-    for request in Request.query.filter(Request.generation_date == None).all():
+    for request in Request.query.filter(Request.generation_date == None).all():  # noqa
         prompt = "ID: {} - Email: {}"
         print(prompt.format(request.id, request.email))
 
@@ -79,7 +79,7 @@ def send():
 @certificates_subcommands.command
 def show():
     "List already existing certificates"
-    for request in Request.query.filter(Request.generation_date != None).all():
+    for request in Request.query.filter(Request.generation_date != None).all():  # noqa
         prompt = "ID: {} - Email: {}"
         print(prompt.format(request.id, request.email))
 
