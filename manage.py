@@ -77,7 +77,7 @@ def send():
 
 
 @certificates_subcommands.command
-def list():
+def show():
     "List already existing certificates"
     for request in Request.query.filter(Request.generation_date != None).all():
         prompt = "ID: {} - Email: {}"
