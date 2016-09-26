@@ -62,8 +62,8 @@ def list():
         print(prompt.format(request.id, request.email))
 
 
-@requests_subcommands.command
-def send_again():
+@certificates_subcommands.command
+def send():
     "Send existing certificate again"
     print("Which existing certificate do you want to send again? Type the ID")
     send_again_id = input('>')
