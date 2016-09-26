@@ -55,7 +55,7 @@ def process():
 
 
 @requests_subcommands.command
-def list():
+def show():
     "List new certificate requests"
     for request in Request.query.filter(Request.generation_date == None).all():
         prompt = "ID: {} - Email: {}"
