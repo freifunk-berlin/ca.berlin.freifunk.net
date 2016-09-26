@@ -72,5 +72,13 @@ def send_again():
     except:
         print("That didn't work.")
 
+
+@requests_subcommands.command
+def list_old():
+    "List already existing certificates"
+    for request in Request.query.filter(Request.generation_date != None).all():
+        prompt = "ID: {} - Email: {}"
+        print(prompt.format(request.id, request.email))
+
 if __name__ == '__main__':
     manager.run()
