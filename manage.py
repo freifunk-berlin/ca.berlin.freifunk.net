@@ -28,10 +28,22 @@ manager.add_command('certificates', certificates_subcommands)
 
 def mail_certificate(id, email):
     with app.app_context():
-        msg = Message(app.config['MAIL_SUBJECT'], sender=app.config['MAIL_FROM'], recipients=[email])
+        msg = Message(
+                app.config['MAIL_SUBJECT'],
+                sender=app.config['MAIL_FROM'],
+                recipients=[email]
+                )
         msg.body = render_template('mail.txt')
-        with app.open_resource("{}/freifunk_{}.tgz".format(app.config['DIRECTORY_CLIENTS'], id)) as fp:
-            msg.attach("freifunk_{}.tgz".format(id), "application/gzip", fp.read())
+        certificate_path = "{}/freifunk_{}.tgz".format(
+                app.config['DIRECTORY_CLIENTS'],
+                id
+                )
+        with app.open_resource(certificate_path) as fp:
+            msg.attach(
+                    "freifunk_{}.tgz".format(id),
+                    "application/gzip",
+                    fp.read()
+                    )
         mail.send(msg)
 
 
