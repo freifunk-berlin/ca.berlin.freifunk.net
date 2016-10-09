@@ -17,9 +17,6 @@ VPN03_*.key, VPN03_*.crt
 freifunk-ca.crt
   Bestätigt beim Verbindungsaufbau ausgetauschte Schlüssel
 
-%SERVER%_%NAME%-android.p12
-  Schlüsseldateien zum Import für Win, Android: experimentelles IPSec/L2TP
-  Kennwort ist "freifunc". IPSec ist kompliziert und Buggy -> nicht benutzen
 
 Die Regeln sind einfach:
 
