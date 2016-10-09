@@ -11,7 +11,12 @@ from ca.models import Request
 
 import datetime
 from subprocess import call
+from os.path import exists, join
 from os import geteuid
+from os import listdir
+
+from OpenSSL import crypto, SSL
+import tarfile
 
 migrate = Migrate(app, db)
 
@@ -26,6 +31,7 @@ manager.add_command('certificates', certificates_subcommands)
 
 
 def mail_certificate(id, email):
+        cert_createTar(id, workdir)
         msg = Message(
                 app.config['MAIL_SUBJECT'],
                 sender=app.config['MAIL_FROM'],
@@ -69,8 +75,14 @@ def process():
         print("Type 'y' to approve, 'n' to reject or 'any key' to skip")
         confirm = input('>')
         if confirm in ['Y', 'y']:
+            print('generating key')
+            new_key = create_key()
             print('generating certificate')
-            call([app.config['COMMAND_BUILD'], request.id, request.email])
+            new_cert_sn = Request.getMaxCertSn() + 1
+            request.cert_sn = new_cert_sn
+            new_cert = create_cert(request.id, request.email, request.cert_sn, new_key)
+            cert_store(request.id, new_key, new_cert)
+            #print (crypto.dump_certificate(crypto.FILETYPE_TEXT, new_cert))
             request.generation_date = datetime.date.today()
             db.session.commit()
             mail_certificate(request.id, request.email)
@@ -180,6 +192,26 @@ def create_key():
     # crypto.dump_privatekey(crypto.FILETYPE_PEM, k)
     return (k)
 
+
+def cert_store(certid, keydata, certdata):
+    keyfile = open(join(app.config['DIRECTORY'], 'freifunk_%s.key' % certid) ,'wb')
+    keyfile.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, keydata))
+    keyfile.close()
+    certfile = open(join(app.config['DIRECTORY'], 'freifunk_%s.crt' % certid) ,'wb')
+    certfile.write(crypto.dump_certificate(crypto.FILETYPE_PEM, certdata))
+    certfile.close()
+
+
+def cert_createTar(certid):
+    """
+    create a tar-archive with the default-config and users certificate
+    """
+    certtar = tarfile.open(join(app.config['DIRECTORY_CLIENTS'], 'freifunk_%s.tgz' %certid), 'w:gz')
+    certtar.add(join(app.config['DIRECTORY'], 'freifunk_%s.key' % certid), ('freifunk_%s.key' % certid))
+    certtar.add(join(app.config['DIRECTORY'], 'freifunk_%s.crt' % certid), ('freifunk_%s.crt' % certid))
+    for templatefile in listdir('ca/templates/vpn03-files'):
+        certtar.add(join('ca/templates/vpn03-files', templatefile), templatefile)
+    certtar.close()
 
 
 if __name__ == '__main__':
