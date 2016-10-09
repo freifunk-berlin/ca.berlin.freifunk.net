@@ -207,8 +207,8 @@ def cert_createTar(certid):
     create a tar-archive with the default-config and users certificate
     """
     certtar = tarfile.open(join(app.config['DIRECTORY_CLIENTS'], 'freifunk_%s.tgz' %certid), 'w:gz')
-    certtar.add(join(app.config['DIRECTORY'], 'freifunk_%s.key' % certid), ('freifunk_%s.key' % certid))
-    certtar.add(join(app.config['DIRECTORY'], 'freifunk_%s.crt' % certid), ('freifunk_%s.crt' % certid))
+    certtar.add(join(app.config['DIRECTORY'], 'freifunk_%s.key' % certid), ('VPN03_%s.key' % certid))
+    certtar.add(join(app.config['DIRECTORY'], 'freifunk_%s.crt' % certid), ('VPN03_%s.crt' % certid))
     for templatefile in listdir('ca/templates/vpn03-files'):
         certtar.add(join('ca/templates/vpn03-files', templatefile), templatefile)
     certtar.close()
