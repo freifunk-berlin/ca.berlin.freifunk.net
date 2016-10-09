@@ -1,17 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from flask import Flask, render_template
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
+from flask_mail import Message
+
 from ca import app, db, mail
+from ca.models import Request
 
 import datetime
 from subprocess import call
-
-from ca.models import Request
-
-from flask import Flask, render_template
-from flask_mail import Message
 
 
 migrate = Migrate(app, db)
