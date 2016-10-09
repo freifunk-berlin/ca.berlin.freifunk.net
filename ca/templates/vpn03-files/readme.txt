@@ -1,17 +1,17 @@
 Dieses TGZ enthält eine VPN-Konfiguration für Freifunker.
 ---------------------------------------------------------
 
-Ausprobieren: sudo openvpn %SERVER%_%NAME%-udp.opvn
+Ausprobieren: sudo openvpn VPN03-udp.opvn
 dann einfach http://google.com/search?q=my+ip nutzen
 
-%SERVER%_%NAME%-udp.ovpn
+VPN03-udp.ovpn
   Standard-Konfiguration über UDP, unverschlüsselt, optimiert für Tempo
 
-%SERVER%_%NAME%-tcp.ovpn
+VPN03-tcp.ovpn
   Ausweich-Konfiguration über TCP, verschlüsselt, für Proxy + Regimes
   Hinweis: TCP-über-TCP führt häufig zu hängenden Downloads
 
-%SERVER%_%NAME%.key, %SERVER%_%NAME%.crt
+VPN03_*.key, VPN03_*.crt
   Schlüsseldateien, bitte nicht veröffentlichen
 
 freifunk-ca.crt
