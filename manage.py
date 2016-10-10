@@ -26,7 +26,7 @@ manager.add_command('certificates', certificates_subcommands)
 
 
 def mail_certificate(id, email):
-    with app.app_context():
+#    with app.app_context():
         msg = Message(
                 app.config['MAIL_SUBJECT'],
                 sender=app.config['MAIL_FROM'],
