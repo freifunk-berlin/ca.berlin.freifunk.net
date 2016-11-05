@@ -1,6 +1,7 @@
 from flask import request, render_template
+from flask_mail import Message
 
-from ca import app, db
+from ca import app, db, mail
 from ca.forms import RequestForm
 from ca.models import Request
 
@@ -29,11 +30,10 @@ def post_request():
         return render_template('index.html', form=form)
 
 def mail_info_after_request(email):
-#    with app.app_context():
-        msg = Message(
-                app.config['MAIL_SUBJECT'],
-                sender=app.config['MAIL_FROM'],
-                recipients=[email]
-                )
-        msg.body = render_template('mail_info_after_request.txt')
-        mail.send(msg)
+    msg = Message(
+            "Deine Anfrage für das Freifunk VPN ist eingegangen!",
+            sender=app.config['MAIL_FROM'],
+            recipients=[email]
+            )
+    msg.body = render_template('mail_info_after_request.txt')
+    mail.send(msg)

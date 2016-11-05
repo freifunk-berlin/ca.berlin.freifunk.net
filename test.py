@@ -1,9 +1,11 @@
 import os
 import unittest
 import tempfile
+
+from flask_mail import Mail
+
 from ca import app, db
 from ca.models import Request
-from flask.ext.sqlalchemy import SQLAlchemy
 
 
 class FlaskrTestCase(unittest.TestCase):
@@ -13,6 +15,7 @@ class FlaskrTestCase(unittest.TestCase):
         database_path = 'sqlite:///{}'.format(self.temp_filepath)
         app.config['SQLALCHEMY_DATABASE_URI'] = database_path
         app.config['TESTING'] = True
+        self.mail = Mail(app)
         self.app = app.test_client()
 
         db.create_all()
@@ -32,31 +35,40 @@ class FlaskrTestCase(unittest.TestCase):
         assert response.status_code == 200
 
     def test_make_request(self):
-        example_data = dict(id='foobar',
-                            email='email@provider.com',
-                            email_confirm='email@provider.com',
-                            captcha='Berlin'
-                            )
-        response = self.app.post('/',
-                                 data=example_data,
-                                 follow_redirects=True)
+        with self.mail.record_messages() as outbox:
+            example_data = dict(id='foobar',
+                                email='email@provider.com',
+                                email_confirm='email@provider.com',
+                                captcha='Berlin'
+                                )
+            response = self.app.post('/',
+                                     data=example_data,
+                                     follow_redirects=True)
 
-        assert response.status_code == 200
-        entries = db.session.query(Request).all()
-        assert len(entries) == 1
+            assert response.status_code == 200
+            entries = db.session.query(Request).all()
+            assert len(entries) == 1
+            assert len(outbox) == 1
+            assert outbox[0].subject == "Deine Anfrage für das Freifunk VPN ist eingegangen!"
+            assert "Hallo Freifunka!" in outbox[0].body
+
 
     def test_duplicate_id(self):
-        example_data = dict(id='foobar',
-                            email='email@provider.com',
-                            email_confirm='email@provider.com',
-                            captcha='Berlin'
-                            )
-        response = self.app.post('/',
-                                 data=example_data,
-                                 follow_redirects=True)
-        assert response.status_code == 200
-        entries = db.session.query(Request).all()
-        assert len(entries) == 1
+        with self.mail.record_messages() as outbox:
+            example_data = dict(id='foobar',
+                                email='email@provider.com',
+                                email_confirm='email@provider.com',
+                                captcha='Berlin'
+                                )
+            response = self.app.post('/',
+                                     data=example_data,
+                                     follow_redirects=True)
+            assert response.status_code == 200
+            entries = db.session.query(Request).all()
+            assert len(entries) == 1
+            assert len(outbox) == 1
+            assert outbox[0].subject == "Deine Anfrage für das Freifunk VPN ist eingegangen!"
+            assert "Hallo Freifunka!" in outbox[0].body
 
         response = self.app.post('/',
                                  data=example_data,
