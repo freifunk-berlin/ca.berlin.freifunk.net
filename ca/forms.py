@@ -28,7 +28,9 @@ class RequestForm(Form):
             'E-Mail',
             [
                 validators.Email(), validators.Required(),
-                validators.EqualTo('email_confirm')
+                validators.EqualTo('email_confirm'),
+                # open ssl does not accept addresses longer than 39 characters
+                validators.Length(max=39)
             ]
             )
     email_confirm = StringField('E-Mail')

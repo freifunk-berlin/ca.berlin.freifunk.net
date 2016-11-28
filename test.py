@@ -107,6 +107,19 @@ class FlaskrTestCase(unittest.TestCase):
         entries = db.session.query(Request).all()
         assert len(entries) == 0
 
+    def test_invalid_request_mail_to_long(self):
+        example_data = dict(id='validusername',
+                            email='a'*40+'@foo.bar',
+                            email_confirm='a'*40+'@foo.bar',
+                            captcha='Berlin'
+                            )
+        response = self.app.post('/',
+                                 data=example_data,
+                                 follow_redirects=True)
+
+        entries = db.session.query(Request).all()
+        assert len(entries) == 0
+
 
 if __name__ == '__main__':
     unittest.main()
