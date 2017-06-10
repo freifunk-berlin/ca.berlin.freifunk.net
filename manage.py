@@ -45,6 +45,16 @@ def mail_certificate(id, email):
         mail.send(msg)
 
 
+def mail_request_rejected(id, email):
+        msg = Message(
+                app.config['MAIL_SUBJECT'],
+                sender=app.config['MAIL_FROM'],
+                recipients=[email]
+                )
+        msg.body = render_template('mail_request_rejected.txt')
+        mail.send(msg)
+
+
 @requests_subcommands.command
 def process():
     "Process new certificate requests"
@@ -56,7 +66,7 @@ def process():
         else:
             prompt = "Do you want to generate a certificate for {}, {} ?"
             print(prompt.format(request.id, request.email))
-        print("Type y to continue")
+        print("Type 'y' to approve, 'n' to reject or 'any key' to skip")
         confirm = input('>')
         if confirm in ['Y', 'y']:
             print('generating certificate')
@@ -65,6 +75,11 @@ def process():
             db.session.commit()
             mail_certificate(request.id, request.email)
             print()
+        elif confirm in ['N', 'n']:
+            print('rejecting request')
+            db.session.delete(request)
+            db.session.commit()
+            mail_request_rejected(request.id, request.email)
         else:
             print('skipping generation \n')
 

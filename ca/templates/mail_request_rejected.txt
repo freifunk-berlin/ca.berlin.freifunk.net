@@ -1,0 +1,36 @@
+Hallo Freifunka!
+
+vielen Dank für dein Interesse an einem Zugang zum Vpn03.
+Jedoch wurde dein Antrag zurückgewiesen, da offensichtlich
+Zweifel an seiner Legitimität bestehen.
+
+Wenn du auf diesen Zugang angewiesen bist, wende dich doch
+an die Mailingliste von Freifunk Berin [1] und schildere kurz
+deine Situation.
+
+Hintergrundinformationen wie Du AKTIV gegen die Störerhaftung
+werden kannst, findest Du auf der Kampagnenseite "Freifunk statt
+Angst"[2]. Wenn Du mehr über das Vpn03 wissen möchtest, findest
+Du Infos im Wiki[3].
+
+Der Vpn03 ist ein Service, der ehrenamtlich von Freifunker_innen
+aus der Berliner Community verwaltet und vom Förderverein freie
+Netzwerke e.V.[4] bereitgestellt und finanziert wird. Hierfür
+sind wir regelmäßig auf Spenden angewiesen[5]. 
+
+Vielen Dank für dein Verständnis,
+Die Vpn03-Administratoren.
+
+Philipp, Sven, Sven-Ola und Faustus
+
+[1] https://lists.berlin.freifunk.net/cgi-bin/mailman/listinfo/berlin
+[2] http://freifunkstattangst.de/
+[3] https://wiki.freifunk.net/Vpn03
+[4] http://foerderverein.freie-netzwerke.de/
+[5] https://www.betterplace.org/de/projects/12172-freifunk-net
+
+--
+Freifunk Berlin VPN-Team
+http://berlin.freifunk.net
+http://foerderverein.freie-netzwerke.de/
+
