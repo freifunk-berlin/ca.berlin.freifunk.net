@@ -17,6 +17,8 @@ from os import listdir
 
 from OpenSSL import crypto, SSL
 import tarfile
+from shutil import rmtree
+import tempfile
 
 migrate = Migrate(app, db)
 
@@ -31,6 +33,7 @@ manager.add_command('certificates', certificates_subcommands)
 
 
 def mail_certificate(id, email):
+        workdir = tempfile.mkdtemp()
         cert_createTar(id, workdir)
         msg = Message(
                 app.config['MAIL_SUBJECT'],
@@ -38,10 +41,7 @@ def mail_certificate(id, email):
                 recipients=[email]
                 )
         msg.body = render_template('mail.txt')
-        certificate_path = "{}/freifunk_{}.tgz".format(
-                app.config['DIRECTORY_CLIENTS'],
-                id
-                )
+        certificate_path = "{}/freifunk_{}.tgz".format(workdir, id)
         with app.open_resource(certificate_path) as fp:
             msg.attach(
                     "freifunk_{}.tgz".format(id),
@@ -49,6 +49,7 @@ def mail_certificate(id, email):
                     fp.read()
                     )
         mail.send(msg)
+        rmtree(workdir)
 
 
 def mail_request_rejected(id, email):
@@ -203,11 +204,11 @@ def cert_store(certid, keydata, certdata):
     certfile.close()
 
 
-def cert_createTar(certid):
+def cert_createTar(certid, directory):
     """
     create a tar-archive with the default-config and users certificate
     """
-    certtar = tarfile.open(join(app.config['DIRECTORY_CLIENTS'], 'freifunk_%s.tgz' %certid), 'w:gz')
+    certtar = tarfile.open(join(directory, 'freifunk_%s.tgz' %certid), 'w:gz')
     certtar.add(join(app.config['DIRECTORY'], 'freifunk_%s.key' % certid), ('VPN03_%s.key' % certid))
     certtar.add(join(app.config['DIRECTORY'], 'freifunk_%s.crt' % certid), ('VPN03_%s.crt' % certid))
     for templatefile in listdir('ca/templates/vpn03-files'):
