@@ -151,7 +151,8 @@ def create_cert(cert_name, cert_email, cert_sn, cert_key):
         cert = crypto.X509()
         cert.set_version(0x02)  # X509-Version 3
         cert.get_subject().C = app.config['NEWCERT_COUNTRY']
-        cert.get_subject().ST = app.config['NEWCERT_STATE']
+        if len(app.config['NEWCERT_STATE']) > 0:
+            cert.get_subject().ST = app.config['NEWCERT_STATE']
         cert.get_subject().L = app.config['NEWCERT_LOCATION']
         cert.get_subject().O = app.config['NEWCERT_ORGANIZATION']
         cert.get_subject().CN = "freifunk_%s" % cert_name
