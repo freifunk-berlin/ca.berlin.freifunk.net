@@ -1,7 +1,6 @@
 alembic==0.8.2
 blinker==1.4
 cffi==1.2.1
-cryptography==1.5.2
 Flask==0.10.1
 Flask-Mail==0.9.1
 Flask-Migrate==1.6.0
