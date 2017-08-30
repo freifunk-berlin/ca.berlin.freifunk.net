@@ -146,40 +146,38 @@ def create_cert(cert_name, cert_email, cert_sn, cert_key):
     ca_key_file = open(app.config['CAKEY_FILE'], 'r')
     ca_key = crypto.load_privatekey(crypto.FILETYPE_PEM, ca_key_file.read())
 
-    if True:
+    # create a new cert
+    cert = crypto.X509()
+    cert.set_version(0x02)  # X509-Version 3
+    cert.get_subject().C = app.config['NEWCERT_COUNTRY']
+    if len(app.config['NEWCERT_STATE']) > 0:
+        cert.get_subject().ST = app.config['NEWCERT_STATE']
+    cert.get_subject().L = app.config['NEWCERT_LOCATION']
+    cert.get_subject().O = app.config['NEWCERT_ORGANIZATION']
+    cert.get_subject().CN = "freifunk_%s" % cert_name
+    cert.get_subject().emailAddress = cert_email
+    cert.set_serial_number(cert_sn)
+    cert.gmtime_adj_notBefore(0)
+    cert.gmtime_adj_notAfter(app.config['NEWCERT_DURATION'])
+    cert.set_issuer(ca_cert.get_subject())
+    cert.set_pubkey(cert_key)
 
-        # create a new cert
-        cert = crypto.X509()
-        cert.set_version(0x02)  # X509-Version 3
-        cert.get_subject().C = app.config['NEWCERT_COUNTRY']
-        if len(app.config['NEWCERT_STATE']) > 0:
-            cert.get_subject().ST = app.config['NEWCERT_STATE']
-        cert.get_subject().L = app.config['NEWCERT_LOCATION']
-        cert.get_subject().O = app.config['NEWCERT_ORGANIZATION']
-        cert.get_subject().CN = "freifunk_%s" % cert_name
-        cert.get_subject().emailAddress = cert_email
-        cert.set_serial_number(cert_sn)
-        cert.gmtime_adj_notBefore(0)
-        cert.gmtime_adj_notAfter(app.config['NEWCERT_DURATION'])
-        cert.set_issuer(ca_cert.get_subject())
-        cert.set_pubkey(cert_key)
+    # create cert extensions
+    # as Python 3 uses unicode-strings we have to froce them to byte-strings
+    #  https://github.com/pyca/pyopenssl/issues/15
+    cert_ext = [
+        crypto.X509Extension(b'basicConstraints', False, b"CA:FALSE"),
+        crypto.X509Extension(b'nsComment', False, app.config['NEWCERT_COMMENT']),
+        crypto.X509Extension(b'subjectKeyIdentifier', False, b'hash', subject=cert),
+        crypto.X509Extension(b'authorityKeyIdentifier', False, b'keyid:always,issuer:always', issuer=ca_cert),
+        crypto.X509Extension(b'extendedKeyUsage', False, b'TLS Web Client Authentication'),
+        crypto.X509Extension(b'keyUsage', False, b'Digital Signature'),
+    ]
+    cert.add_extensions(cert_ext)
 
-        # create cert extensions
-        # as Python 3 uses unicode-strings we have to froce them to byte-strings
-        #  https://github.com/pyca/pyopenssl/issues/15
-        cert_ext = [
-            crypto.X509Extension(b'basicConstraints', False, b"CA:FALSE"),
-            crypto.X509Extension(b'nsComment', False, app.config['NEWCERT_COMMENT']),
-            crypto.X509Extension(b'subjectKeyIdentifier', False, b'hash', subject=cert),
-            crypto.X509Extension(b'authorityKeyIdentifier', False, b'keyid:always,issuer:always', issuer=ca_cert),
-            crypto.X509Extension(b'extendedKeyUsage', False, b'TLS Web Client Authentication'),
-            crypto.X509Extension(b'keyUsage', False, b'Digital Signature'),
-        ]
-        cert.add_extensions(cert_ext)
+    cert.sign(ca_key, app.config['NEWCERT_SIGNDIGEST'])
 
-        cert.sign(ca_key, app.config['NEWCERT_SIGNDIGEST'])
-
-        return (cert)
+    return (cert)
 
 
 def create_key():
