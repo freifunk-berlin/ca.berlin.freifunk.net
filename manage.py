@@ -16,6 +16,7 @@ from os import geteuid
 from os import listdir
 
 from OpenSSL import crypto, SSL
+from pyasn1.type import useful
 import tarfile
 from shutil import rmtree
 import tempfile
@@ -85,6 +86,12 @@ def process():
             cert_store(request.id, new_key, new_cert)
             #print (crypto.dump_certificate(crypto.FILETYPE_TEXT, new_cert))
             request.generation_date = datetime.date.today()
+            expireAsn1 = new_cert.get_notAfter().decode("ASCII")
+            # see the Note on http://pyasn1.sourceforge.net/docs/type/useful/utctime.html#pyasn1.type.useful.UTCTime
+            # for this we only use the 2-digit year
+            expireAsn1 = str(expireAsn1)[2:]
+            expiry = useful.UTCTime(expireAsn1)
+            request.cert_expire_date = expiry.asDateTime
             db.session.commit()
             mail_certificate(request.id, request.email)
             print()
