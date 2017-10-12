@@ -11,7 +11,7 @@ from ca.models import Request
 
 import datetime
 from subprocess import call
-
+from os import geteuid
 
 migrate = Migrate(app, db)
 
@@ -114,4 +114,6 @@ def show():
         print(prompt.format(request.id, request.email))
 
 if __name__ == '__main__':
+    if (geteuid() == 0) and (app.config["DENY_EXEC_AS_ROOT"]):
+        exit("Please do not run as root.")
     manager.run()

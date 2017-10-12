@@ -2,6 +2,7 @@
 
 SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/test.db'
 SECRET_KEY = 'foobar'
+DENY_EXEC_AS_ROOT = True
 DIRECTORY = "tests/openvpn/easy-rsa/keys/"
 COMMAND_BUILD = "tests/openvpn/clients/openvpn-build-key"
 MAIL_FROM = "no-reply@ca.berlin.freifunk.net"
