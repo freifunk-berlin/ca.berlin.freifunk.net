@@ -56,3 +56,55 @@ To change the **host** you can add the `-h 0.0.0.0` parameter.
 To change the **port** you can add the `-p 1337` parameter.
 
 All development should be done in Python 3.
+
+
+## Deployment
+
+Since this code only requires Python and no additional system-access is required, there is no need to run this instance with root-access for signing. the following lines show some commands that suggest some level of privilege-separation for the daily operation.
+
+### basic system setup
+```
+# setup of basic system-accounts
+addgroup freifunk
+addgroup tunnelberlin-signer
+addgroup tunnelberlin-admin
+adduser --ingroup tunnelberlin-admin --disabled-password --disabled-login tunnelberlin-keymaster
+mkdir /home/tunnelberlin-keymaster/ssl-data
+# this ca.files needs to be set in the config.py
+cp <ca.crt> /home/tunnelberlin-keymaster/ssl-data
+cp <ca.key> /home/tunnelberlin-keymaster/ssl-data
+chown -R tunnelberlin-keymaster:tunnelberlin-signer /home/tunnelberlin-keymaster/ssl-data
+chmod 710 /home/tunnelberlin-keymaster/ssl-data
+chmod 640 /home/tunnelberlin-keymaster/ssl-data/ca.*
+adduser --ingroup tunnelberlin-signer --disabled-password --disabled-login tunnelberlin-sign
+# this directory needs to be set in the config.py and will contain the created certs & keys
+mkdir /home/tunnelberlin-sign/certs
+chown tunnelberlin-sign:tunnelberlin-signer /home/tunnelberlin-sign/certs
+chmod 2770 /home/tunnelberlin-sign/certs
+
+# change the umask that all users of group "tunnelberlin-signer" can write to the files made by other users
+sed -i -e "s/UMASK.*/UMASK 002/" /etc/login.defs
+
+# setup of web-frontend, users of group "tunnelberlin-admin" will be able to change the code  (e.g. git pull, git checkout)
+mkdir /var/www/tunnel.berln.freifunk.net
+chmod 775 /var/www/tunnel.berln.freifunk.net
+chgrp tunnelberlin-admin /var/www/tunnel.berln.freifunk.net
+cd /var/www/tunnel.berln.freifunk.net
+sg tunnelberlin-admin
+git clone https://github.com/freifunk-berlin/ca.berlin.freifunk.net.git .
+su postgreq -c "createdb -O ca tunnelberlin-ca"
+```
+
+### adding a new user
+```
+adduser --ingroup freifunk <username>
+addgroup <username> tunnelberlin-signer
+```
+
+### procesing requests
+```
+cd <instance> # e.g. /var/www/tunnel.berlin.freifunk.net
+sg tunnelberlin-signer
+. env/bin/activate
+./manage ....
+```

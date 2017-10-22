@@ -11,7 +11,14 @@ from ca.models import Request
 
 import datetime
 from subprocess import call
+from os.path import exists, join
 from os import geteuid
+from os import listdir
+
+from OpenSSL import crypto, SSL
+import tarfile
+from shutil import rmtree
+import tempfile
 
 migrate = Migrate(app, db)
 
@@ -26,16 +33,15 @@ manager.add_command('certificates', certificates_subcommands)
 
 
 def mail_certificate(id, email):
+        workdir = tempfile.mkdtemp()
+        cert_createTar(id, workdir)
         msg = Message(
                 app.config['MAIL_SUBJECT'],
                 sender=app.config['MAIL_FROM'],
                 recipients=[email]
                 )
         msg.body = render_template('mail.txt')
-        certificate_path = "{}/freifunk_{}.tgz".format(
-                app.config['DIRECTORY_CLIENTS'],
-                id
-                )
+        certificate_path = "{}/freifunk_{}.tgz".format(workdir, id)
         with app.open_resource(certificate_path) as fp:
             msg.attach(
                     "freifunk_{}.tgz".format(id),
@@ -43,6 +49,7 @@ def mail_certificate(id, email):
                     fp.read()
                     )
         mail.send(msg)
+        rmtree(workdir)
 
 
 def mail_request_rejected(id, email):
@@ -69,8 +76,14 @@ def process():
         print("Type 'y' to approve, 'n' to reject or 'any key' to skip")
         confirm = input('>')
         if confirm in ['Y', 'y']:
+            print('generating key')
+            new_key = create_key()
             print('generating certificate')
-            call([app.config['COMMAND_BUILD'], request.id, request.email])
+            new_cert_sn = Request.getMaxCertSn() + 1
+            request.cert_sn = new_cert_sn
+            new_cert = create_cert(request.id, request.email, request.cert_sn, new_key)
+            cert_store(request.id, new_key, new_cert)
+            #print (crypto.dump_certificate(crypto.FILETYPE_TEXT, new_cert))
             request.generation_date = datetime.date.today()
             db.session.commit()
             mail_certificate(request.id, request.email)
@@ -112,6 +125,94 @@ def show():
     for request in Request.query.filter(Request.generation_date != None).all():  # noqa
         prompt = "ID: {} - Email: {}"
         print(prompt.format(request.id, request.email))
+
+
+# taken from https://gist.github.com/ril3y/1165038
+def create_cert(cert_name, cert_email, cert_sn, cert_key):
+    """
+    create a certificate for the supplied key and sign by the configured ca
+    Parameters:
+     * cert_name:  certificates common name (String)
+     * cert_email: certificates EmailAddress (String)
+     * cert_sn:    certificates Serial-number (unique interger)
+     * cert_key:   the private key of the certificate (PyOpenSSL key)
+    Return:
+     signed certificate as PyOpenSSL certificate-object
+    """
+
+    # get required CA-data
+    ca_cert_file = open(app.config['CACERT_FILE'], 'r')
+    ca_cert = crypto.load_certificate(crypto.FILETYPE_PEM, ca_cert_file.read())
+    ca_key_file = open(app.config['CAKEY_FILE'], 'r')
+    ca_key = crypto.load_privatekey(crypto.FILETYPE_PEM, ca_key_file.read())
+
+    # create a new cert
+    cert = crypto.X509()
+    cert.set_version(0x02)  # X509-Version 3
+    cert.get_subject().C = app.config['NEWCERT_COUNTRY']
+    if len(app.config['NEWCERT_STATE']) > 0:
+        cert.get_subject().ST = app.config['NEWCERT_STATE']
+    cert.get_subject().L = app.config['NEWCERT_LOCATION']
+    cert.get_subject().O = app.config['NEWCERT_ORGANIZATION']
+    cert.get_subject().CN = "freifunk_%s" % cert_name
+    cert.get_subject().emailAddress = cert_email
+    cert.set_serial_number(cert_sn)
+    cert.gmtime_adj_notBefore(0)
+    cert.gmtime_adj_notAfter(app.config['NEWCERT_DURATION'])
+    cert.set_issuer(ca_cert.get_subject())
+    cert.set_pubkey(cert_key)
+
+    # create cert extensions
+    # as Python 3 uses unicode-strings we have to froce them to byte-strings
+    #  https://github.com/pyca/pyopenssl/issues/15
+    cert_ext = [
+        crypto.X509Extension(b'basicConstraints', False, b"CA:FALSE"),
+        crypto.X509Extension(b'nsComment', False, app.config['NEWCERT_COMMENT']),
+        crypto.X509Extension(b'subjectKeyIdentifier', False, b'hash', subject=cert),
+        crypto.X509Extension(b'authorityKeyIdentifier', False, b'keyid:always,issuer:always', issuer=ca_cert),
+        crypto.X509Extension(b'extendedKeyUsage', False, b'TLS Web Client Authentication'),
+        crypto.X509Extension(b'keyUsage', False, b'Digital Signature'),
+    ]
+    cert.add_extensions(cert_ext)
+
+    cert.sign(ca_key, app.config['NEWCERT_SIGNDIGEST'])
+
+    return (cert)
+
+
+def create_key():
+    """Create a key-pair as per config"""
+    # create a key pair
+    k = crypto.PKey()
+    if app.config['NEWKEY_ALG'].lower() == 'rsa':
+        keytype = crypto.TYPE_RSA
+    elif app.config['NEWKEY_ALG'].lower() == 'dsa':
+        keytype = crypto.TYPE_DSA
+    k.generate_key(keytype, app.config['NEWKEY_SIZE'])
+    # crypto.dump_privatekey(crypto.FILETYPE_PEM, k)
+    return (k)
+
+
+def cert_store(certid, keydata, certdata):
+    keyfile = open(join(app.config['DIRECTORY'], 'freifunk_%s.key' % certid) ,'wb')
+    keyfile.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, keydata))
+    keyfile.close()
+    certfile = open(join(app.config['DIRECTORY'], 'freifunk_%s.crt' % certid) ,'wb')
+    certfile.write(crypto.dump_certificate(crypto.FILETYPE_PEM, certdata))
+    certfile.close()
+
+
+def cert_createTar(certid, directory):
+    """
+    create a tar-archive with the default-config and users certificate
+    """
+    certtar = tarfile.open(join(directory, 'freifunk_%s.tgz' %certid), 'w:gz')
+    certtar.add(join(app.config['DIRECTORY'], 'freifunk_%s.key' % certid), ('VPN03_%s.key' % certid))
+    certtar.add(join(app.config['DIRECTORY'], 'freifunk_%s.crt' % certid), ('VPN03_%s.crt' % certid))
+    for templatefile in listdir('ca/templates/vpn03-files'):
+        certtar.add(join('ca/templates/vpn03-files', templatefile), templatefile)
+    certtar.close()
+
 
 if __name__ == '__main__':
     if (geteuid() == 0) and (app.config["DENY_EXEC_AS_ROOT"]):
