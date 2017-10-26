@@ -6,6 +6,7 @@ class Request(db.Model):
     email = db.Column(db.String(120))
     generation_date = db.Column(db.Date())
     cert_sn = db.Column(db.Integer, unique=True)
+    cert_expire_date = db.Column(db.Date())
 
     def __init__(self, id, email, generation_date=None):
         self.id = id
