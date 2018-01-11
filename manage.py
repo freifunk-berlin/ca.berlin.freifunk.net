@@ -201,6 +201,14 @@ def create_key():
     return (k)
 
 
+def load_key(keyid):
+    """load existing key(keyid) from disk"""
+    keyfile = open(join(app.config['DIRECTORY'], 'freifunk_%s.key' % keyid) ,'rb')
+    keydata = crypto.load_privatekey(crypto.FILETYPE_PEM, keyfile.read())
+    keyfile.close()
+    return (keydata)
+
+
 def key_store(keyid, keydata):
     keyfile = open(join(app.config['DIRECTORY'], 'freifunk_%s.key' % keyid) ,'wb')
     keyfile.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, keydata))
