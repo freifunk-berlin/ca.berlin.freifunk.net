@@ -83,7 +83,8 @@ def process():
             new_cert_sn = Request.getMaxCertSn() + 1
             request.cert_sn = new_cert_sn
             new_cert = create_cert(request.id, request.email, request.cert_sn, new_key)
-            cert_store(request.id, new_key, new_cert)
+            key_store(request.id, new_key)
+            cert_store(request.id, new_cert)
             #print (crypto.dump_certificate(crypto.FILETYPE_TEXT, new_cert))
             request.generation_date = datetime.date.today()
             expireAsn1 = new_cert.get_notAfter().decode("ASCII")
@@ -200,10 +201,13 @@ def create_key():
     return (k)
 
 
-def cert_store(certid, keydata, certdata):
-    keyfile = open(join(app.config['DIRECTORY'], 'freifunk_%s.key' % certid) ,'wb')
+def key_store(keyid, keydata):
+    keyfile = open(join(app.config['DIRECTORY'], 'freifunk_%s.key' % keyid) ,'wb')
     keyfile.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, keydata))
     keyfile.close()
+
+
+def cert_store(certid, certdata):
     certfile = open(join(app.config['DIRECTORY'], 'freifunk_%s.crt' % certid) ,'wb')
     certfile.write(crypto.dump_certificate(crypto.FILETYPE_PEM, certdata))
     certfile.close()
