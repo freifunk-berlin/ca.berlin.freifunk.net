@@ -7,8 +7,9 @@ process. In the past a user requested a certificate for our vpn service
 [VPN03](https://wiki.freifunk.net/Vpn03) via the mailinglist which caused a lot
 of noise on the mailing list and work on the admin side of the process.
 Today we use a webinterface for user input that lives at
-[https://ca.berlin.freifunk.net](https://ca.berlin.freifunk.net). The user
-provides us with an id and e-mail and generates a certificate request in the
+[https://ca.berlin.freifunk.net](https://ca.berlin.freifunk.net). This code is
+also used for our new Community tunnel [Tunnel Berlin](https://wiki.freifunk.net/Berlin:Community-Tunnel).
+The user provides us with an id and e-mail and generates a certificate request in the
 database. After the generation of the request an admin has to execute
 `python3 manage.py requests process` on the server to create the certificate and send it to the
 user. To send an already existing certificate again use `python3 manage.py certificates send`.
@@ -59,6 +60,8 @@ All development should be done in Python 3.
 
 
 ## Deployment
+
+For each deployed system there is a branch "instance/<hostname>" where the actual deployed setup will be hosted. On a new host just branch from master and put your host-specific changes into this branch.
 
 Since this code only requires Python and no additional system-access is required, there is no need to run this instance with root-access for signing. the following lines show some commands that suggest some level of privilege-separation for the daily operation.
 
