@@ -146,7 +146,6 @@ def cert_renew():
             request.cert_sn = new_cert_sn
             new_cert = create_cert(request.id, request.email, request.cert_sn, new_key)
             cert_store(request.id, new_cert)
-            request.generation_date = datetime.date.today()
             expireAsn1 = new_cert.get_notAfter().decode("ASCII")
             # see the Note on http://pyasn1.sourceforge.net/docs/type/useful/utctime.html#pyasn1.type.useful.UTCTime
             # for this we only use the 2-digit year
