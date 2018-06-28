@@ -19,3 +19,4 @@ NEWCERT_ORGANIZATION = "Foerderverein Freie Netzwerke e.V."
 NEWCERT_DURATION = 10*365*24*60*60 # 10 years
 NEWCERT_COMMENT = b'made for you with PyOpenSSL'
 NEWCERT_SIGNDIGEST = "sha1"
+NEWCERT_INCLUDE_EMAIL = False
