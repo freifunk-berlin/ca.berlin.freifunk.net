@@ -163,7 +163,8 @@ def create_cert(cert_name, cert_email, cert_sn, cert_key):
     cert.get_subject().L = app.config['NEWCERT_LOCATION']
     cert.get_subject().O = app.config['NEWCERT_ORGANIZATION']
     cert.get_subject().CN = "freifunk_%s" % cert_name
-    cert.get_subject().emailAddress = cert_email
+    if app.config['NEWCERT_INCLUDE_EMAIL']:
+        cert.get_subject().emailAddress = cert_email
     cert.set_serial_number(cert_sn)
     cert.gmtime_adj_notBefore(0)
     cert.gmtime_adj_notAfter(app.config['NEWCERT_DURATION'])
