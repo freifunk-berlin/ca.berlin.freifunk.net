@@ -1,36 +1,27 @@
 Hallo Freifunka!
 
-vielen Dank für dein Interesse an einem Zugang zum Vpn03.
-Jedoch wurde dein Antrag zurückgewiesen, da offensichtlich
-Zweifel an seiner Legitimität bestehen.
+vielen Dank für Dein Interesse an einem Zugang zum 
+Freifunk-Community-Tunnel.
+Jedoch wurde Dein Antrag zurückgewiesen, da es Zweifel an
+seiner Legitimität gibt.
 
-Wenn du auf diesen Zugang angewiesen bist, wende dich doch
-an die Mailingliste von Freifunk Berin [1] und schildere kurz
-deine Situation.
+Wenn Du auf diesen Zugang angewiesen bist, wende Dich doch
+an die Mailingliste von Freifunk Berlin [1] und schildere kurz
+Deine Situation.
 
-Hintergrundinformationen wie Du AKTIV gegen die Störerhaftung
-werden kannst, findest Du auf der Kampagnenseite "Freifunk statt
-Angst"[2]. Wenn Du mehr über das Vpn03 wissen möchtest, findest
-Du Infos im Wiki[3].
+Der Community-Tunnel ist ein Service, der ehrenamtlich von
+Freifunker_innen aus der Berliner Community verwaltet wird.
+Mehr über den Community-Tunnel findest Du im Wiki[1].
 
-Der Vpn03 ist ein Service, der ehrenamtlich von Freifunker_innen
-aus der Berliner Community verwaltet und vom Förderverein freie
-Netzwerke e.V.[4] bereitgestellt und finanziert wird. Hierfür
-sind wir regelmäßig auf Spenden angewiesen[5]. 
+In Handarbeit und mit Engagement für Freie Netze erstellt von
+Deinen Community-Tunnel-Administrator_innen. Informationen über
+unsere Server findest Du unter[2].
 
-Vielen Dank für dein Verständnis,
-Die Vpn03-Administratoren.
+Freundliche Grüße vom Community-Tunnel-Team!
 
-Philipp, Sven, Sven-Ola und Faustus
-
-[1] https://lists.berlin.freifunk.net/cgi-bin/mailman/listinfo/berlin
-[2] http://freifunkstattangst.de/
-[3] https://wiki.freifunk.net/Vpn03
-[4] http://foerderverein.freie-netzwerke.de/
-[5] https://www.betterplace.org/de/projects/12172-freifunk-net
+[1] https://wiki.freifunk.net/Berlin:Community-Tunnel
+[2] https://wiki.freifunk.net/Berlin:Server#tunnel-gw.berlin.freifunk.net
 
 --
-Freifunk Berlin VPN-Team
-http://berlin.freifunk.net
-http://foerderverein.freie-netzwerke.de/
-
+Freifunk Berlin
+https://berlin.freifunk.net/

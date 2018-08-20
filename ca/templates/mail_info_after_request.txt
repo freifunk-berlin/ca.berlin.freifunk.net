@@ -5,29 +5,24 @@ Menschen teilen möchtest und haben deine Zertifikatsanforderung
 erhalten.
 
 Leider kann sich das Ausstellen des Zertifikates bis zu zwei
-Wochen hinziehen, da das unsere VPN03-Adminstratoren in liebevoller
-Handarbeit machen.
+Wochen hinziehen, da das unsere Community-Tunnel-Administrator_innen
+in liebevoller Handarbeit machen.
 
-Wenn sie es gemacht haben, bekommst Du eine E-Mail.
+Wenn Dein Zertifikat erstellt wurde, bekommst Du es per E-Mail.
 
-Der Vpn03 ist ein Service, der ehrenamtlich von Freifunker_innen
-aus der Berliner Community verwaltet und vom Förderverein freie
-Netzwerke e.V.[5] bereitgestellt und finanziert wird. Hierfür
-sind wir regelmäßig auf Spenden angewiesen[6]. 
+Der Community-Tunnel ist ein Service, der ehrenamtlich von
+Freifunker_innen aus der Berliner Community verwaltet wird.
+Mehr über den Community-Tunnel findest Du im Wiki[1].
 
 In Handarbeit und mit Engagement für Freie Netze erstellt von
-Deinen Vpn03-Administratoren.
+Deinen Community-Tunnel-Administrator_innen. Informationen über
+unsere Server findest Du unter[2].
 
-Philipp, Sven, Sven-Ola und Faustus
+Freundliche Grüße vom Community-Tunnel-Team!
 
-[1] http://freifunkstattangst.de/
-[2] https://wiki.freifunk.net/Vpn03
-[3] https://berlin.freifunk.net/participate/howto/
-[4] https://lists.berlin.freifunk.net/cgi-bin/mailman/listinfo/berlin
-[5] http://foerderverein.freie-netzwerke.de/
-[6] https://www.betterplace.org/de/projects/12172-freifunk-net
+[1] https://wiki.freifunk.net/Berlin:Community-Tunnel
+[2] https://wiki.freifunk.net/Berlin:Server#tunnel-gw.berlin.freifunk.net
 
 --
-Freifunk Berlin VPN-Team
-http://berlin.freifunk.net
-http://foerderverein.freie-netzwerke.de/
+Freifunk Berlin
+https://berlin.freifunk.net/

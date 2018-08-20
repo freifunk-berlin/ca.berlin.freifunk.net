@@ -22,8 +22,8 @@ Der Community-Tunnel ist ein Service, der ehrenamtlich von
 Freifunker_innen aus der Berliner Community verwaltet wird.
 
 In Handarbeit und mit Engagement für Freie Netze erstellt von
-Deinen Community-Tunnel-Administratoren. Informationen über
-usere Server findest Du unter[4].
+Deinen Community-Tunnel-Administrator_innen. Informationen über
+unsere Server findest Du unter[4].
 
 Freundliche Grüße vom Community-Tunnel-Team!
 

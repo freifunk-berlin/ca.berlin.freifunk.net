@@ -1,37 +1,35 @@
-Dieses TGZ enthält eine VPN-Konfiguration für Freifunker.
+Dieses TGZ enthält die Zugangsdateien für 
+den Freifunk-Community-Tunnel.
 ---------------------------------------------------------
 
-Ausprobieren: sudo openvpn VPN03-udp.opvn
-dann einfach http://google.com/search?q=my+ip nutzen
-
-VPN03-udp.ovpn
-  Standard-Konfiguration über UDP, unverschlüsselt, optimiert für Tempo
-
-VPN03-tcp.ovpn
-  Ausweich-Konfiguration über TCP, verschlüsselt, für Proxy + Regimes
-  Hinweis: TCP-über-TCP führt häufig zu hängenden Downloads
-
 VPN03_*.key, VPN03_*.crt
-  Schlüsseldateien, bitte nicht veröffentlichen
+  Schlüsseldateien, bitte nicht veröffentlichen. Schlüssel nur einmal
+  gleichzeitig verwendbar. Neues Gerät, neuer Schlüssel!
+  
+Diese Dateien könnt Ihr mithilfe des Freifunk-Assistenten in Euer Gerät
+einspielen (oder erneuern): auf der zweiten Seite des Assistenten
+"Freifunk anbieten und Internet teilen" wählen und dann die *.crt und die
+*.key-Dateien in den entsprechenden Feldern auswählen und hochladen.
 
-freifunk-ca.crt
-  Bestätigt beim Verbindungsaufbau ausgetauschte Schlüssel
+Nach den Neustart sollte im Systemlog das Zustandekommen der Verbindung
+über das ffuplink-Interface zu sehen sein, hier ein Beispiel:
 
+Tue Jul 10 17:03:08 2018 daemon.notice openvpn(ffuplink)[2222]: [freifunk-gw01.xxxxxxxxx.de] Peer Connection Initiated with [AF_INET]XXX.XXX.83.193:1194
+Tue Jul 10 17:03:09 2018 daemon.notice netifd: Interface 'ffuplink' is enabled
+Tue Jul 10 17:03:09 2018 daemon.notice netifd: Network device 'ffuplink' link is up
+Tue Jul 10 17:03:09 2018 daemon.notice netifd: Interface 'ffuplink' has link connectivity 
+Tue Jul 10 17:03:09 2018 daemon.notice netifd: Interface 'ffuplink' is setting up now
+Tue Jul 10 17:03:09 2018 daemon.notice netifd: Interface 'ffuplink' is now up
+Tue Jul 10 17:03:09 2018 daemon.notice openvpn(ffuplink)[2222]: TUN/TAP device ffuplink opened
+Tue Jul 10 17:03:09 2018 daemon.notice openvpn(ffuplink)[2222]: do_ifconfig, tt->did_ifconfig_ipv6_setup=0
+Tue Jul 10 17:03:09 2018 daemon.notice openvpn(ffuplink)[2222]: /sbin/ifconfig ffuplink XXX.XXX.241.121 netmask 255.255.255.0 mtu 1500 broadcast XXX.XXX.241.255
+Tue Jul 10 17:03:09 2018 daemon.notice openvpn(ffuplink)[2222]: /lib/freifunk/ffvpn-up.sh ffuplink 1500 1553 XXX.XXX.241.121 255.255.255.0 init
+Tue Jul 10 17:03:10 2018 user.debug up-down-ffvpn: no route_net_gateway env var from openvpn!
+Tue Jul 10 17:03:11 2018 daemon.warn openvpn(ffuplink)[2222]: WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this
+Tue Jul 10 17:03:11 2018 daemon.notice openvpn(ffuplink)[2222]: Initialization Sequence Completed
+Tue Jul 10 17:31:48 2018 user.notice up-down-ffvpn: ugw: 192.168.XXX.XXX dev: ffuplink remote: 255.255.255.0 gw: XXX.XXX.241.1 src: XXX.XXX.241.121 mask: 255.255.255.0
 
-Die Regeln sind einfach:
+Bei Fragen schaut ins Wiki oder meldet Euch auf der Berliner Mailing-Liste,
+die Links findet Ihr in der Begleitmail zu diesem Archiv.
 
-* Ungewöhnlich viele Verbindungen zu verschiedenen Rechnern -> Zwangsproxy(4h)
-* Kein NAT auf den Routern, sonst Zwangsproxy für alle wegen einem DHCP-Benutzer
-* NAT passiert grundsätzlich auf dem VPN-Gateway. Outgoing IP aus einem Pool
-* Rückroute über Tunnel gibts automatisch wenn eine Incoming-IP entdeckt wird
-* Generell: IPs (auch DHCP-IPs) nur aus 104.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12
-* Doppelte IPs vermeiden (sonst togglen die Rückrouten). Berlin -> IPVergabe(104)
-* Tunnel sind nicht (nur) für Road-Warrior, sondern für Router mit Netzen dahinter
-* Schlüssel nur einmal gleichzeitig verwendbar. Neues Gerät, neuer Schlüssel
-* Tipp: VPN-Server hostet Opkg's (OpenVPN+SSL) für OpenWRT-Router mit wenig Platz
-
-Bei Fragen schaut ins Wiki oder meldet Euch auf der Berliner Mailing-Liste:
-http://wiki.freifunk.net/Vpn03
-http://lists.berlin.freifunk.net/cgi-bin/mailman/listinfo/berlin
-
-Bitte denkt auch an die Betriebskosten: http://freifunkstattangst.de/
+Viel Spaß mit Freifunk!
