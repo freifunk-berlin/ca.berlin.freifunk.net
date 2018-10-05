@@ -2,7 +2,7 @@ Dieses TGZ enthält die Zugangsdateien für
 den Freifunk-Community-Tunnel.
 ---------------------------------------------------------
 
-VPN03_*.key, VPN03_*.crt
+ffuplink_*.key, ffuplink_*.crt
   Schlüsseldateien, bitte nicht veröffentlichen. Schlüssel nur einmal
   gleichzeitig verwendbar. Neues Gerät, neuer Schlüssel!
   
