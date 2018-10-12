@@ -3,4 +3,4 @@ pylint
 pytest
 pytest-cov
 python-coveralls
-coverage==3.7.1
+coverage>=4.4
