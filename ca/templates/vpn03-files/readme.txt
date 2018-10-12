@@ -31,6 +31,7 @@ Die Regeln sind einfach:
 * Tipp: VPN-Server hostet Opkg's (OpenVPN+SSL) für OpenWRT-Router mit wenig Platz
 
 Bei Fragen schaut ins Wiki oder meldet Euch auf der Berliner Mailing-Liste:
+https://wiki.freifunk.net/Berlin:Community-Tunnel
 http://wiki.freifunk.net/Vpn03
 http://lists.berlin.freifunk.net/cgi-bin/mailman/listinfo/berlin
 
